@@ -28,6 +28,16 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// querydsl
+	implementation 'com.querydsl:querydsl-jpa'
+	implementation 'com.querydsl:querydsl-apt'
+
+	// json web token
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
 }
 
 tasks.named('test') {

@@ -1,4 +1,4 @@
-package com.example.recipeGPT;
+package com.recipe.gpt;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
