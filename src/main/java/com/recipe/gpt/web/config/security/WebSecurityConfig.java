@@ -1,5 +1,6 @@
 package com.recipe.gpt.web.config.security;
 
+import com.recipe.gpt.web.path.ApiPath;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
