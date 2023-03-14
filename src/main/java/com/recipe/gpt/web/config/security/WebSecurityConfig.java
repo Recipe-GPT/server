@@ -8,10 +8,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurity {
+public class WebSecurityConfig {
 
+    // TODO::WHITE_LIST 수정
     private static final String[] WHITE_LIST = {
-            "/users/**",
+            "/auth/**",
+            "/swagger-ui/**",
             "/**"
     };
 
