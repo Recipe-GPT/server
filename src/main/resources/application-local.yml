@@ -1,0 +1,26 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    hikari:
+      jdbc-url: ${recipe.gpt.spring.datasource.url}
+      username: ${recipe.gpt.spring.datasource.username}
+      password: ${recipe.gpt.spring.datasource.password}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${recipe.gpt.spring.oauth.google.client}
+            client-secret: ${recipe.gpt.spring.oauth.google.secret}
+            redirect-uri: ${recipe.gpt.spring.oauth.google.redirect-uri}
+            scope:
+              - email
+              - profile
+
+  jpa:
+    hibernate:
+      ddl-auto: update
