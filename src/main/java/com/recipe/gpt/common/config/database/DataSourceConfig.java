@@ -1,4 +1,4 @@
-package com.recipe.gpt.web.config.database;
+package com.recipe.gpt.common.config.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

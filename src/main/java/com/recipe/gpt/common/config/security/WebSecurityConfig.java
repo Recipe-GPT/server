@@ -1,4 +1,4 @@
-package com.recipe.gpt.web.config.security;
+package com.recipe.gpt.common.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,9 +12,9 @@ public class WebSecurityConfig {
 
     // TODO::WHITE_LIST 수정
     private static final String[] WHITE_LIST = {
-            "/auth/**",
-            "/swagger-ui/**",
-            "/**"
+        "/auth/**",
+        "/swagger-ui/**",
+        "/**",
     };
 
     @Bean
@@ -22,7 +22,7 @@ public class WebSecurityConfig {
         http.csrf().disable();
         http.headers().frameOptions().disable();
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(WHITE_LIST).permitAll());
+            .requestMatchers(WHITE_LIST).permitAll());
         return http.build();
     }
 

@@ -1,4 +1,4 @@
-package com.recipe.gpt.web.dto;
+package com.recipe.gpt.app.web.dto.common;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

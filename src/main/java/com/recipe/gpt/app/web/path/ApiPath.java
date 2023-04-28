@@ -1,4 +1,4 @@
-package com.recipe.gpt.web.path;
+package com.recipe.gpt.app.web.path;
 
 public class ApiPath {
 
@@ -6,7 +6,6 @@ public class ApiPath {
     public static final String ERROR_AUTH = "/api/error";
 
     public static final String LOGIN_OAUTH2 = "/api/login/oauth";
-
 
 
 }
