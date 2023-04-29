@@ -1,0 +1,16 @@
+package com.recipe.gpt.app.web.dto.recipe.openAi;
+
+import java.util.List;
+
+public class EventData {
+
+    List<EventChoice> choices;
+
+    public List<EventChoice> getChoices() {
+        return choices;
+    }
+
+    public void setChoices(List<EventChoice> choices) {
+        this.choices = choices;
+    }
+}
