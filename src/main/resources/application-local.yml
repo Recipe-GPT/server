@@ -3,6 +3,9 @@ spring:
     activate:
       on-profile: local
 
+  openai:
+    api-key: ${recipe.gpt.spring.openai.api-key}
+
   datasource:
     hikari:
       jdbc-url: ${recipe.gpt.spring.datasource.url}
@@ -28,3 +31,4 @@ spring:
 springdoc:
   swagger-ui:
     path: "/swagger-ui.html"
+
