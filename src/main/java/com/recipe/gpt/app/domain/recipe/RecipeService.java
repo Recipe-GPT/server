@@ -21,6 +21,13 @@ public class RecipeService {
             .prompt(body.getPrompt())
             .model("text-davinci-003")
             .echo(false)
+            .bestOf(1)
+            .frequencyPenalty(0D)
+            .logprobs(0)
+            .maxTokens(120)
+            .presencePenalty(0D)
+            .temperature(0.3)
+            .topP(1D)
             .build();
         return ResponseEntity.ok(service.createCompletion(completionRequest).getChoices());
 
