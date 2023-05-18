@@ -1,6 +1,8 @@
 package com.recipe.gpt.app.web.dto.recipe.ai;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,9 +15,11 @@ import lombok.NoArgsConstructor;
 public class AiServerRequestDto {
 
     @NotEmpty
-    private List<String> ingredients;
+    @Size(min = 3, max = 20)
+    private List<@NotBlank @Size(max = 10) String> ingredients;
 
     @NotEmpty
-    private List<String> seasonings;
+    @Size(min = 3, max = 20)
+    private List<@NotBlank @Size(max = 10) String> seasonings;
 
 }
