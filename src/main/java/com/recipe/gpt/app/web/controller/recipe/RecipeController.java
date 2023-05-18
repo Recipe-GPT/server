@@ -1,10 +1,11 @@
 package com.recipe.gpt.app.web.controller.recipe;
 
 import com.recipe.gpt.app.domain.recipe.RecipeService;
-import com.recipe.gpt.app.web.dto.recipe.ai.OpenAiRequestDto;
+import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRequestDto;
 import com.recipe.gpt.app.web.path.ApiPath;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +21,10 @@ public class RecipeController {
 
     @Operation(summary = "레시피 질문")
     @PostMapping(ApiPath.RECIPE_QUERY)
-    public ResponseEntity<?> recipeQuery(@RequestBody OpenAiRequestDto body) {
-        return recipeService.recipeQuery(body);
+    public ResponseEntity<?> recipeQuery(
+        @Valid @RequestBody AiServerRequestDto body
+    ) {
+        return ResponseEntity.ok(recipeService.recipeQuery(body));
     }
 
 }
