@@ -1,23 +1,19 @@
 package com.recipe.gpt.app.web.dto.recipe.ai;
 
+import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class OpenAiRequestDto {
 
-    String prompt;
+    @NotEmpty
+    private List<String> ingredients;
 
-//    Integer maxTokens;
-//
-//    Double temperature;
-//
-//    Double frequencyPenalty;
-//
-//    Double presencePenalty;
-//
-//    List<String> stop;
+    @NotEmpty
+    private List<String> seasonings;
 
 }
