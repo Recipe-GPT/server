@@ -18,7 +18,7 @@ public class UserController {
 
     @Operation(summary = "OAuth 로그인")
     @PostMapping(ApiPath.LOGIN_OAUTH2)
-    public TokenDto loginOAuth2(@Validated @RequestBody OAuth2RequestDto rq) {
+    public TokenDto loginOAuth2(@Validated @RequestBody OAuth2RequestDto body) {
         return null;
     }
 

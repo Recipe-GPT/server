@@ -28,3 +28,11 @@ spring:
 springdoc:
   swagger-ui:
     path: "/swagger-ui.html"
+
+api:
+  x-api-key: ${recipe.gpt.api.x-api-key}
+  base-url: ${recipe.gpt.api.base-url}
+  uri: ${recipe.gpt.api.uri}
+
+
+

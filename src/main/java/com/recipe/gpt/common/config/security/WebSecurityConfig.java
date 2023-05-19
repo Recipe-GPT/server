@@ -10,9 +10,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    // TODO::WHITE_LIST 수정
     private static final String[] WHITE_LIST = {
         "/auth/**",
+        "/api/recipe/query",
         "/swagger-ui/**",
         "/**",
     };
