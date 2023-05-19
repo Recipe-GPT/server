@@ -15,9 +15,18 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 public class RecipeService {
 
-    @Value("${spring.openai.api-key}")
+    @Value("${api.x-api-key}")
     private String apiKey;
 
+    @Value("${api.base-url}")
+    private String baseUrl;
+
+    @Value("${api.uri}")
+    private String uri;
+
+    /**
+     * 레시피 질문
+     */
     public ListResponse<AiServerResponseDto> recipeQuery(AiServerRequestDto body) {
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("ingredients", body.getIngredients());
@@ -25,13 +34,13 @@ public class RecipeService {
 
         WebClient webClient = WebClient
             .builder()
-            .baseUrl("https://recipe-api.bssm.kro.kr/")
+            .baseUrl(baseUrl)
             .defaultHeader("x-api-key", apiKey)
             .build();
 
         AiServerResponseDto[] responseArray = webClient
             .post()
-            .uri("recommend/proxy")
+            .uri(uri)
             .bodyValue(bodyMap)
             .retrieve()
             .bodyToMono(AiServerResponseDto[].class)
