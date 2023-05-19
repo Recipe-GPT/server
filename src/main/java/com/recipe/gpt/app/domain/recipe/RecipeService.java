@@ -8,20 +8,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
-@Slf4j
 public class RecipeService {
 
     @Value("${spring.openai.api-key}")
     private String apiKey;
 
     public ListResponse<AiServerResponseDto> recipeQuery(AiServerRequestDto body) {
-
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("ingredients", body.getIngredients());
         bodyMap.put("seasonings", body.getSeasonings());
@@ -34,7 +31,7 @@ public class RecipeService {
 
         AiServerResponseDto[] responseArray = webClient
             .post()
-            .uri("generate/proxy")
+            .uri("recommend/proxy")
             .bodyValue(bodyMap)
             .retrieve()
             .bodyToMono(AiServerResponseDto[].class)
