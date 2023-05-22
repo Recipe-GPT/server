@@ -27,15 +27,11 @@ public class Member {
 
     private String imageUrl;
 
-    @Column(nullable = false)
-    private String password;
-
     @Builder
-    private Member(String email, String name, String imageUrl, String password) {
-        this.email = email;
+    private Member(String name, String email, String imageUrl) {
         this.name = name;
+        this.email = email;
         this.imageUrl = imageUrl;
-        this.password = password;
     }
 
 }
