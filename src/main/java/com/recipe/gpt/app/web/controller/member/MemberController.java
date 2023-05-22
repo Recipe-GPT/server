@@ -1,4 +1,4 @@
-package com.recipe.gpt.app.web.controller.user;
+package com.recipe.gpt.app.web.controller.member;
 
 import com.recipe.gpt.app.web.dto.user.OAuth2RequestDto;
 import com.recipe.gpt.app.web.dto.common.TokenDto;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "인증")
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class MemberController {
 
     @Operation(summary = "OAuth 로그인")
     @PostMapping(ApiPath.LOGIN_OAUTH2)
