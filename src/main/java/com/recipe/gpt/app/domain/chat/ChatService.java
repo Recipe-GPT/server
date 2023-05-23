@@ -1,4 +1,4 @@
-package com.recipe.gpt.app.domain.recipe;
+package com.recipe.gpt.app.domain.chat;
 
 
 import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRequestDto;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
-public class RecipeService {
+public class ChatService {
 
     @Value("${api.x-api-key}")
     private String apiKey;
