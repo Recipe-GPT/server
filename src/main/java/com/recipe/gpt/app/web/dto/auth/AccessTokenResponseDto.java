@@ -14,4 +14,11 @@ public class AccessTokenResponseDto {
 
     private String accessTokenValidity;
 
+    public static AccessTokenResponseDto of(String accessToken, String accessTokenValidity) {
+        return new AccessTokenResponseDto(
+            accessToken,
+            accessTokenValidity
+        );
+    }
+
 }

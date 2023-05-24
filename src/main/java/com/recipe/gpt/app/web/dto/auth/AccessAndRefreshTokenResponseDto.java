@@ -18,4 +18,14 @@ public class AccessAndRefreshTokenResponseDto {
 
     private String refreshTokenValidity;
 
+    public static AccessAndRefreshTokenResponseDto of(AccessTokenResponseDto accessTokenResponseDto,
+        RefreshTokenResponseDto refreshTokenResponseDto) {
+        return new AccessAndRefreshTokenResponseDto(
+            accessTokenResponseDto.getAccessToken(),
+            refreshTokenResponseDto.getRefreshToken(),
+            accessTokenResponseDto.getAccessTokenValidity(),
+            refreshTokenResponseDto.getRefreshTokenValidity()
+        );
+    }
+
 }
