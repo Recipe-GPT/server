@@ -2,9 +2,11 @@ package com.recipe.gpt.app.web.controller.auth;
 
 import com.recipe.gpt.app.domain.auth.AuthService;
 import com.recipe.gpt.app.domain.auth.OAuthClient;
+import com.recipe.gpt.app.web.dto.auth.AccessTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.OAuth2LoginRequestDto;
 import com.recipe.gpt.app.web.dto.auth.AccessAndRefreshTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.OAuthMember;
+import com.recipe.gpt.app.web.dto.auth.TokenRenewalRequestDto;
 import com.recipe.gpt.app.web.path.ApiPath;
 import com.recipe.gpt.common.config.security.context.LoginMember;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,12 +36,12 @@ public class AuthController {
         return ResponseEntity.ok(authService.generateAccessAndRefreshToken(oAuthMember));
     }
 
-//    @Operation(summary = "액세스토큰 재발급")
-//    @PostMapping(ApiPath.REFRESH_TOKEN)
-//    public ResponseEntity<AccessTokenResponseDto> generateAccessToken(
-//        @Valid @RequestBody TokenRenewalRequestDto body) {
-//        return ResponseEntity.ok(authService.generateAccessToken(body));
-//    }
+    @Operation(summary = "액세스토큰 재발급")
+    @PostMapping(ApiPath.REFRESH_TOKEN)
+    public ResponseEntity<AccessTokenResponseDto> generateAccessToken(
+        @Valid @RequestBody TokenRenewalRequestDto body) {
+        return ResponseEntity.ok(authService.refreshAccessToken(body));
+    }
 
     @Operation(summary = "토큰 확인")
     @GetMapping(ApiPath.VALIDATE_TOKEN)

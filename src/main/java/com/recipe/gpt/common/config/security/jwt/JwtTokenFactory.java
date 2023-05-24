@@ -9,6 +9,9 @@ import com.recipe.gpt.app.domain.member.Member;
 import com.recipe.gpt.app.web.dto.auth.AccessAndRefreshTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.AccessTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.RefreshTokenResponseDto;
+import com.recipe.gpt.common.config.redis.RefreshToken;
+import com.recipe.gpt.common.config.redis.RefreshTokenRepository;
+import com.recipe.gpt.common.exception.NotFoundRefreshTokenException;
 import com.recipe.gpt.common.util.DateUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,10 +21,14 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class JwtTokenFactory {
+
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public AccessAndRefreshTokenResponseDto generateJwtToken(Member member) {
         AccessTokenResponseDto accessToken = generateAccessToken(member);
@@ -80,12 +87,8 @@ public class JwtTokenFactory {
             .compact();
 
         // Redis 저장
-//        val redisRefreshToken = RefreshToken(
-//            refreshToken = refreshToken,
-//            memberId = member.id!!
-//        )
-//
-//        refreshTokenRepository.save(redisRefreshToken)
+        RefreshToken redisRefreshToken = new RefreshToken(refreshToken, member.getId());
+        refreshTokenRepository.save(redisRefreshToken);
 
         return RefreshTokenResponseDto.of(
             refreshToken,
@@ -99,6 +102,11 @@ public class JwtTokenFactory {
             .setSigningKey(JwtProperty.SIGN_KEY)
             .parseClaimsJws(token)
             .getBody();
+    }
+
+    public RefreshToken getRefreshToken(String refreshToken) {
+        return refreshTokenRepository.findByRefreshToken(refreshToken)
+            .orElseThrow(NotFoundRefreshTokenException::new);
     }
 
 }
