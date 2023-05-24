@@ -25,7 +25,10 @@ public class WebSecurityConfig {
 
     private static final String[] WHITE_LIST = {
         "/swagger-ui/**",
-        "/**",
+        "/v3/api-docs/**",
+        "/swagger-resources/**",
+        "/resources/**",
+        "/"
     };
 
     @Bean
