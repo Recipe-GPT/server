@@ -18,28 +18,35 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final MemberRepository memberRepository;
+
     private final JwtTokenFactory jwtTokenFactory;
 
+    /**
+     * 액세스 토큰, 리프레시 토큰 생성
+     */
     @Transactional
     public AccessAndRefreshTokenResponseDto generateAccessAndRefreshToken(OAuthMember oAuthMember) {
         Member foundMember = findMember(oAuthMember);
         return jwtTokenFactory.generateJwtToken(foundMember);
     }
 
-    private Member findMember(final OAuthMember oAuthMember) {
-        String email = oAuthMember.getEmail();
-        if (memberRepository.existsByEmail(email)) {
-            return memberRepository.findByEmail(email)
-                .orElseThrow(NotFoundMemberException::new);
-        }
-        return memberRepository.save(oAuthMember.toMember());
-    }
-
+    /**
+     * 리프레시 토큰으로 액세스 토큰 생성
+     */
+    @Transactional(readOnly = true)
     public AccessTokenResponseDto refreshAccessToken(TokenRenewalRequestDto body) {
         RefreshToken refreshToken = jwtTokenFactory.getRefreshToken(body.getRefreshToken());
         Member member = memberRepository.findById(refreshToken.getMemberId())
             .orElseThrow(NotFoundMemberException::new);
         return jwtTokenFactory.generateAccessToken(member);
+    }
+
+    private Member findMember(final OAuthMember oAuthMember) {
+        String email = oAuthMember.getEmail();
+        if (memberRepository.existsByEmail(email)) {
+            return memberRepository.getByEmail(email);
+        }
+        return memberRepository.save(oAuthMember.toMember());
     }
 
 }

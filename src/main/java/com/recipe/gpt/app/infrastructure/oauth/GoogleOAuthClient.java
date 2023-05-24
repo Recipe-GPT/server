@@ -31,7 +31,7 @@ public class GoogleOAuthClient implements OAuthClient {
 
     private final ObjectMapper objectMapper;
 
-    public GoogleOAuthClient(final GoogleProperties properties, final RestTemplateBuilder restTemplateBuilder,
+    public GoogleOAuthClient(GoogleProperties properties, RestTemplateBuilder restTemplateBuilder,
         final ObjectMapper objectMapper) {
         this.properties = properties;
         this.restTemplate = restTemplateBuilder.build();
@@ -39,7 +39,7 @@ public class GoogleOAuthClient implements OAuthClient {
     }
 
     @Override
-    public OAuthMember getOAuthMember(final String code) {
+    public OAuthMember getOAuthMember(String code) {
         GoogleTokenResponseDto googleTokenResponse = requestGoogleToken(code);
         String payload = getPayload(googleTokenResponse.getIdToken());
         UserInfo userInfo = parseUserInfo(payload);
@@ -48,7 +48,7 @@ public class GoogleOAuthClient implements OAuthClient {
         return new OAuthMember(userInfo.getEmail(), userInfo.getName(), userInfo.getPicture(), refreshToken);
     }
 
-    private GoogleTokenResponseDto requestGoogleToken(final String code) {
+    private GoogleTokenResponseDto requestGoogleToken(String code) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -69,7 +69,7 @@ public class GoogleOAuthClient implements OAuthClient {
         }
     }
 
-    private MultiValueMap<String, String> generateTokenParams(final String code) {
+    private MultiValueMap<String, String> generateTokenParams(String code) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("client_id", properties.getClientId());
         params.add("client_secret", properties.getClientSecret());
@@ -79,11 +79,11 @@ public class GoogleOAuthClient implements OAuthClient {
         return params;
     }
 
-    private String getPayload(final String jwt) {
+    private String getPayload(String jwt) {
         return jwt.split(JWT_DELIMITER)[1];
     }
 
-    private UserInfo parseUserInfo(final String payload) {
+    private UserInfo parseUserInfo(String payload) {
         String decodedPayload = decodeJwtPayload(payload);
         try {
             return objectMapper.readValue(decodedPayload, UserInfo.class);
@@ -94,7 +94,7 @@ public class GoogleOAuthClient implements OAuthClient {
         }
     }
 
-    private String decodeJwtPayload(final String payload) {
+    private String decodeJwtPayload(String payload) {
         return new String(Base64.getUrlDecoder().decode(payload), StandardCharsets.UTF_8);
     }
 
