@@ -9,6 +9,7 @@ import lombok.Getter;
 public class GoogleTokenResponseDto {
 
     private String refreshToken;
+
     private String idToken;
 
 

@@ -1,7 +1,16 @@
-package com.recipe.gpt.app.infrastructure.oauth;
+package com.recipe.gpt.app.infrastructure.oauth.client;
+
+import static com.recipe.gpt.app.infrastructure.oauth.constants.OAuthConstants.AUTHORIZATION_CODE;
+import static com.recipe.gpt.app.infrastructure.oauth.constants.OAuthConstants.CLIENT_ID;
+import static com.recipe.gpt.app.infrastructure.oauth.constants.OAuthConstants.CLIENT_SECRET;
+import static com.recipe.gpt.app.infrastructure.oauth.constants.OAuthConstants.CODE;
+import static com.recipe.gpt.app.infrastructure.oauth.constants.OAuthConstants.GOOGLE_AUTH_URL;
+import static com.recipe.gpt.app.infrastructure.oauth.constants.OAuthConstants.GRANT_TYPE;
+import static com.recipe.gpt.app.infrastructure.oauth.constants.OAuthConstants.REDIRECT_URI;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.recipe.gpt.app.domain.auth.OAuthClient;
+import com.recipe.gpt.common.exception.OAuthException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import com.recipe.gpt.app.infrastructure.oauth.dto.GoogleTokenResponseDto;
@@ -45,7 +54,13 @@ public class GoogleOAuthClient implements OAuthClient {
         UserInfo userInfo = parseUserInfo(payload);
 
         String refreshToken = googleTokenResponse.getRefreshToken();
-        return new OAuthMember(userInfo.getEmail(), userInfo.getName(), userInfo.getPicture(), refreshToken);
+
+        return new OAuthMember(
+            userInfo.getEmail(),
+            userInfo.getName(),
+            userInfo.getPicture(),
+            refreshToken
+        );
     }
 
     private GoogleTokenResponseDto requestGoogleToken(String code) {
@@ -61,21 +76,20 @@ public class GoogleOAuthClient implements OAuthClient {
     private ResponseEntity<GoogleTokenResponseDto> fetchGoogleToken(
         final HttpEntity<MultiValueMap<String, String>> request) {
         try {
-            return restTemplate.postForEntity("https://oauth2.googleapis.com/token", request, GoogleTokenResponseDto.class);
+            return restTemplate.postForEntity(GOOGLE_AUTH_URL, request,
+                GoogleTokenResponseDto.class);
         } catch (final RestClientException e) {
-            // TODO :: 수정
-//            throw new OAuthException(e);
-            throw new RuntimeException();
+            throw new OAuthException("Google OAuth 서버와 통신 중 에러가 발생하였습니다.");
         }
     }
 
     private MultiValueMap<String, String> generateTokenParams(String code) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("client_id", properties.getClientId());
-        params.add("client_secret", properties.getClientSecret());
-        params.add("code", code);
-        params.add("grant_type", "authorization_code");
-        params.add("redirect_uri", properties.getRedirectUri());
+        params.add(CLIENT_ID, properties.getClientId());
+        params.add(CLIENT_SECRET, properties.getClientSecret());
+        params.add(CODE, code);
+        params.add(GRANT_TYPE, AUTHORIZATION_CODE);
+        params.add(REDIRECT_URI, properties.getRedirectUri());
         return params;
     }
 
@@ -88,9 +102,7 @@ public class GoogleOAuthClient implements OAuthClient {
         try {
             return objectMapper.readValue(decodedPayload, UserInfo.class);
         } catch (final JsonProcessingException e) {
-            // TODO :: 수정
-//            throw new OAuthException("id 토큰을 읽을 수 없습니다.", e);
-            throw new RuntimeException();
+            throw new OAuthException("id 토큰을 읽을 수 없습니다.");
         }
     }
 
