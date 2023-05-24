@@ -1,16 +1,22 @@
 package com.recipe.gpt.common.config.redis;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
-@Value("\${spring.security.jwt.refresh-token-validity-in-seconds}")
-private Long REFRESH_TOKEN_TIME_TO_LIVE = -1L;
-
-@RedisHash(value = "refreshToken", timeToLive = REFRESH_TOKEN_TIME_TO_LIVE)
-class RefreshToken (
+@RedisHash(value = "refreshToken", timeToLive = 604800000L)
+@Getter
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class RefreshToken {
 
     @Id
     @Indexed
-    val refreshToken: String,
-    val memberId: Long,
+    private String refreshToken;
+    private Long memberId;
 
-    )
+}
