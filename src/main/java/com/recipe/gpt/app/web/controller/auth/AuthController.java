@@ -2,9 +2,9 @@ package com.recipe.gpt.app.web.controller.auth;
 
 import com.recipe.gpt.app.domain.auth.AuthService;
 import com.recipe.gpt.app.domain.auth.OAuthClient;
+import com.recipe.gpt.app.web.dto.auth.AccessAndRefreshTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.AccessTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.OAuth2LoginRequestDto;
-import com.recipe.gpt.app.web.dto.auth.AccessAndRefreshTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.OAuthMember;
 import com.recipe.gpt.app.web.dto.auth.TokenRenewalRequestDto;
 import com.recipe.gpt.app.web.path.ApiPath;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final OAuthClient oAuthClient;
+
     private final AuthService authService;
 
     @Operation(summary = "google oauth 로그인")

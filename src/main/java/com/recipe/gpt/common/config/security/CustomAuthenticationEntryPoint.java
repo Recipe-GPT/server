@@ -22,9 +22,11 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         AuthenticationException authException) throws IOException {
         JwtExceptionCode exceptionCode = (JwtExceptionCode) request.getAttribute(JWT_EXCEPTION);
         String encode = URLEncoder.encode("비정상적인 접근입니다.", StandardCharsets.UTF_8);
+
         if (Objects.nonNull(exceptionCode)) {
             encode = URLEncoder.encode(exceptionCode.getMessage(), StandardCharsets.UTF_8);
         }
         response.sendRedirect(ApiPath.ERROR_AUTH + "?message=" + encode);
     }
+
 }

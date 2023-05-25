@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties(GoogleProperties.class)
 @SpringBootApplication
 public class RecipeGptApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(RecipeGptApplication.class, args);
     }

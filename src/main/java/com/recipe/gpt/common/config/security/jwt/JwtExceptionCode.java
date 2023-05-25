@@ -15,5 +15,6 @@ public enum JwtExceptionCode {
 
     private final String code;
     private final String message;
+
 }
 

@@ -35,7 +35,7 @@ public class AuthService {
      */
     @Transactional(readOnly = true)
     public AccessTokenResponseDto refreshAccessToken(TokenRenewalRequestDto body) {
-        RefreshToken refreshToken = jwtTokenFactory.getRefreshToken(body.getRefreshToken());
+        RefreshToken refreshToken = jwtTokenFactory.findRefreshToken(body.getRefreshToken());
         Member member = memberRepository.findById(refreshToken.getMemberId())
             .orElseThrow(NotFoundMemberException::new);
         return jwtTokenFactory.generateAccessToken(member);
