@@ -29,7 +29,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @Operation(summary = "google oauth 로그인")
+    @Operation(summary = "Google OAuth 로그인")
     @PostMapping(ApiPath.LOGIN_OAUTH2)
     public ResponseEntity<AccessAndRefreshTokenResponseDto> login(
         @Valid @RequestBody OAuth2LoginRequestDto body) {
@@ -44,7 +44,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.refreshAccessToken(body));
     }
 
-    @Operation(summary = "토큰 확인")
+    @Operation(summary = "토큰 유효성 확인")
     @GetMapping(ApiPath.VALIDATE_TOKEN)
     public ResponseEntity<Void> validateToken(@AuthenticationPrincipal LoginMember loginMember) {
         return ResponseEntity.ok().build();
