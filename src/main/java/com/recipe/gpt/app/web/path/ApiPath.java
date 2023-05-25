@@ -9,6 +9,9 @@ public class ApiPath {
 
     public static final String VALIDATE_TOKEN = "/api/v1/oauth/validate";
 
+    // 멤버
+    public static final String MEMBER = "/api/v1/member";
+
     // 레시피 질문
     public static final String RECIPE_QUERY = "/api/v1/recipe/query";
 

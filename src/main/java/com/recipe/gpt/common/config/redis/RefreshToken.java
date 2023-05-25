@@ -1,6 +1,6 @@
 package com.recipe.gpt.common.config.redis;
 
-import static com.recipe.gpt.common.config.security.jwt.JwtProperty.REFRESH_TOKEN_TIME_TO_LIVE;
+import static com.recipe.gpt.common.config.security.jwt.JwtProperty.REFRESH_TOKEN_TIME_TO_LIVE_PRIMITIVE;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.data.redis.core.index.Indexed;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@RedisHash(value = "refreshToken", timeToLive = REFRESH_TOKEN_TIME_TO_LIVE)
+@RedisHash(value = "refreshToken", timeToLive = REFRESH_TOKEN_TIME_TO_LIVE_PRIMITIVE)
 public class RefreshToken {
 
     @Id
