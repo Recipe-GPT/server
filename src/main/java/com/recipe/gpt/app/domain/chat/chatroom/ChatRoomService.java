@@ -52,5 +52,4 @@ public class ChatRoomService {
         return ListResponse.create(chatRoomResponseDtoList);
     }
 
-
 }
