@@ -1,6 +1,6 @@
 package com.recipe.gpt.app.domain.member;
 
-import com.recipe.gpt.common.exception.NotFoundMemberException;
+import com.recipe.gpt.common.exception.MemberNotFoundException;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,7 +12,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     default Member getByEmail(final String email) {
         return findByEmail(email)
-            .orElseThrow(NotFoundMemberException::new);
+            .orElseThrow(MemberNotFoundException::new);
     }
 
 }
