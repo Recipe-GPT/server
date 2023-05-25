@@ -36,7 +36,7 @@ public class ChatRoom {
         this.member = member;
     }
 
-    public boolean isNotPossibleToAccessPlaylist(Member member) {
+    public boolean isNotPossibleToAccessChatRoom(Member member) {
         if (member == null) {
             return true;
         }

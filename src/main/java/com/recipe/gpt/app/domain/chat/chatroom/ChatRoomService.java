@@ -35,7 +35,7 @@ public class ChatRoomService {
 
         ChatRoom chatRoom = findById(id);
 
-        if (chatRoom.isNotPossibleToAccessPlaylist(member)) {
+        if (chatRoom.isNotPossibleToAccessChatRoom(member)) {
             throw new NotPossibleToAccessChatRoomException();
         }
 
@@ -57,7 +57,7 @@ public class ChatRoomService {
         Member member = memberService.findLoginMember(loginMember);
         ChatRoom chatRoom = findById(id);
 
-        if (chatRoom.isNotPossibleToAccessPlaylist(member)) {
+        if (chatRoom.isNotPossibleToAccessChatRoom(member)) {
             throw new NotPossibleToAccessChatRoomException();
         }
 
