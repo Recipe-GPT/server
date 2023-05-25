@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 public class GeneralHttpException extends RuntimeException {
 
     private final HttpStatus httpStatus;
+
     private final String message;
+
     private final Throwable cause;
 
     public GeneralHttpException(final HttpStatus httpStatus, String message, Throwable cause) {
