@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class FindMemberSelfResponseDto {
+public class MemberResponseDto {
 
     private Long id;
 
@@ -19,8 +19,8 @@ public class FindMemberSelfResponseDto {
 
     private String name;
 
-    public static FindMemberSelfResponseDto of(Member member) {
-        return new FindMemberSelfResponseDto(
+    public static MemberResponseDto of(Member member) {
+        return new MemberResponseDto(
             member.getId(),
             member.getEmail(),
             member.getImageUrl(),

@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +30,24 @@ public class ChatRoom {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder
+    private ChatRoom(String name, Member member) {
+        this.name = name;
+        this.member = member;
+    }
+
+    public boolean isNotPossibleToAccessPlaylist(Member member) {
+        if (member == null) {
+            return true;
+        }
+
+        Long loginMemberId = member.getId();
+        Long memberId = this.member.getId();
+        return !memberId.equals(loginMemberId);
+    }
+
+    public void update(ChatRoom requestChatRoom) {
+        this.name = requestChatRoom.name;
+    }
+    
 }

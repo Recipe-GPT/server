@@ -1,7 +1,7 @@
 package com.recipe.gpt.app.web.controller.member;
 
 import com.recipe.gpt.app.domain.member.MemberService;
-import com.recipe.gpt.app.web.dto.member.FindMemberSelfResponseDto;
+import com.recipe.gpt.app.web.dto.member.MemberResponseDto;
 import com.recipe.gpt.app.web.path.ApiPath;
 import com.recipe.gpt.common.config.security.context.LoginMember;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +21,7 @@ public class MemberController {
 
     @Operation(summary = "내 정보 불러오기")
     @GetMapping(ApiPath.MEMBER)
-    public ResponseEntity<FindMemberSelfResponseDto> findMemberSelf(
+    public ResponseEntity<MemberResponseDto> findMemberSelf(
         @AuthenticationPrincipal LoginMember loginMember) {
         return ResponseEntity.ok(memberService.findMemberSelf(loginMember));
     }
