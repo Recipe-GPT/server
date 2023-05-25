@@ -52,4 +52,22 @@ public class ChatRoomService {
         return ListResponse.create(chatRoomResponseDtoList);
     }
 
+    @Transactional
+    public void updateChatRoom(LoginMember loginMember, Long id, ChatRoomRequestDto body) {
+        Member member = memberService.findLoginMember(loginMember);
+        ChatRoom chatRoom = findById(id);
+
+        if (chatRoom.isNotPossibleToAccessPlaylist(member)) {
+            throw new NotPossibleToAccessChatRoomException();
+        }
+
+        ChatRoom requestChatRoom = body.toChatRoom(member);
+        chatRoom.update(requestChatRoom);
+    }
+
+    private ChatRoom findById(Long id) {
+        return chatRoomRepository.findById(id)
+            .orElseThrow(ChatRoomNotFoundException::new);
+    }
+
 }

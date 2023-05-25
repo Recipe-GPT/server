@@ -49,5 +49,5 @@ public class ChatRoom {
     public void update(ChatRoom requestChatRoom) {
         this.name = requestChatRoom.name;
     }
-    
+
 }
