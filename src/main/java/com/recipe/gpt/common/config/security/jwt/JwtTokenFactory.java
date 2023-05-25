@@ -1,8 +1,10 @@
 package com.recipe.gpt.common.config.security.jwt;
 
+import static com.recipe.gpt.common.config.security.jwt.JwtProperty.ACCESS_TOKEN_TIME_TO_LIVE;
+import static com.recipe.gpt.common.config.security.jwt.JwtProperty.ID;
 import static com.recipe.gpt.common.config.security.jwt.JwtProperty.JWT_ISSUER;
 import static com.recipe.gpt.common.config.security.jwt.JwtProperty.MEMBER_EMAIL;
-import static com.recipe.gpt.common.config.security.jwt.JwtProperty.REGISTRATION_ID;
+import static com.recipe.gpt.common.config.security.jwt.JwtProperty.REFRESH_TOKEN_TIME_TO_LIVE;
 import static com.recipe.gpt.common.config.security.jwt.JwtProperty.SIGN_KEY;
 
 import com.recipe.gpt.app.domain.member.Member;
@@ -30,6 +32,9 @@ public class JwtTokenFactory {
 
     private final RefreshTokenRepository refreshTokenRepository;
 
+    /**
+     * 액세스, 리프레시 토큰 발급
+     */
     public AccessAndRefreshTokenResponseDto generateJwtToken(Member member) {
         AccessTokenResponseDto accessToken = generateAccessToken(member);
         RefreshTokenResponseDto refreshToken = generateRefreshToken(member);
@@ -45,8 +50,7 @@ public class JwtTokenFactory {
      */
     public AccessTokenResponseDto generateAccessToken(Member member) {
         Date now = DateUtils.now();
-        // TODO::환경변수
-        Date expiredDate = DateUtils.addTime(now, 1800000L);
+        Date expiredDate = DateUtils.addTime(now, ACCESS_TOKEN_TIME_TO_LIVE);
         LocalDateTime expiredLocalDateTime = LocalDateTime.ofInstant(expiredDate.toInstant(),
             ZoneId.systemDefault());
 
@@ -64,18 +68,12 @@ public class JwtTokenFactory {
         );
     }
 
-    private Map<String, Object> createJwtClaims(Member member) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(MEMBER_EMAIL, member.getEmail());
-        // TODO::변수명 수정
-        claims.put(REGISTRATION_ID, member.getId());
-        return claims;
-    }
-
+    /**
+     * 리프레시 토큰 발급
+     */
     public RefreshTokenResponseDto generateRefreshToken(Member member) {
         Date now = DateUtils.now();
-        // TODO::환경변수
-        Date expiredDate = DateUtils.addTime(now, 604800000L);
+        Date expiredDate = DateUtils.addTime(now, REFRESH_TOKEN_TIME_TO_LIVE);
         LocalDateTime expiredLocalDateTime = LocalDateTime.ofInstant(expiredDate.toInstant(),
             ZoneId.systemDefault());
 
@@ -96,15 +94,22 @@ public class JwtTokenFactory {
         );
     }
 
+    private Map<String, Object> createJwtClaims(Member member) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(MEMBER_EMAIL, member.getEmail());
+        claims.put(ID, member.getId());
+        return claims;
+    }
+
     public Claims parseClaims(String token) {
         return Jwts
             .parser()
-            .setSigningKey(JwtProperty.SIGN_KEY)
+            .setSigningKey(SIGN_KEY)
             .parseClaimsJws(token)
             .getBody();
     }
 
-    public RefreshToken getRefreshToken(String refreshToken) {
+    public RefreshToken findRefreshToken(String refreshToken) {
         return refreshTokenRepository.findByRefreshToken(refreshToken)
             .orElseThrow(NotFoundRefreshTokenException::new);
     }
