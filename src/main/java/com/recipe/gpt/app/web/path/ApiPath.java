@@ -15,6 +15,16 @@ public class ApiPath {
     // 레시피 질문
     public static final String RECIPE_QUERY = "/api/v1/recipe/query";
 
+    // 채팅방
+    public static final String CHATROOM_CREATE = "/api/v1/chatroom";
+
+    public static final String CHATROOM_DELETE = "/api/v1/chatroom/delete/{id}";
+
+    public static final String CHATROOM_FIND = "/api/v1/chatroom/find";
+
+    public static final String CHATROOM_UPDATE = "/api/v1/chatroom/update/{id}";
+
+
     // 에러 핸들러
     public static final String ERROR_AUTH = "/api/v1/error";
 
