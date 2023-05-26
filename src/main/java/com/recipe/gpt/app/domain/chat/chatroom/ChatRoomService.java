@@ -35,7 +35,7 @@ public class ChatRoomService {
 
         ChatRoom chatRoom = findById(id);
 
-        if (chatRoom.isNotPossibleToAccessChatRoom(member)) {
+        if (!chatRoom.isAccessibleChatRoom(member)) {
             throw new NotPossibleToAccessChatRoomException();
         }
 
@@ -57,7 +57,7 @@ public class ChatRoomService {
         Member member = memberService.findLoginMember(loginMember);
         ChatRoom chatRoom = findById(id);
 
-        if (chatRoom.isNotPossibleToAccessChatRoom(member)) {
+        if (!chatRoom.isAccessibleChatRoom(member)) {
             throw new NotPossibleToAccessChatRoomException();
         }
 

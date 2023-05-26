@@ -36,14 +36,14 @@ public class ChatRoom {
         this.member = member;
     }
 
-    public boolean isNotPossibleToAccessChatRoom(Member member) {
+    public boolean isAccessibleChatRoom(Member member) {
         if (member == null) {
-            return true;
+            return false;
         }
 
         Long loginMemberId = member.getId();
         Long memberId = this.member.getId();
-        return !memberId.equals(loginMemberId);
+        return memberId.equals(loginMemberId);
     }
 
     public void update(ChatRoom requestChatRoom) {
