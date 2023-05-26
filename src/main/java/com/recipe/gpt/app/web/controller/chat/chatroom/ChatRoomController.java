@@ -39,9 +39,9 @@ public class ChatRoomController {
 
     @Operation(summary = "내 채팅방 조회")
     @GetMapping(ApiPath.CHATROOM_FIND)
-    public ListResponse<ChatRoomResponseDto> findChatRoomSelf(
+    public ListResponse<ChatRoomResponseDto> findMyChatRoom(
         @AuthenticationPrincipal LoginMember loginMember) {
-        return chatRoomService.findChatRoomSelf(loginMember);
+        return chatRoomService.findMyChatRoom(loginMember);
     }
 
     @Operation(summary = "채팅방 수정")

@@ -43,12 +43,12 @@ public class ChatRoomService {
     }
 
     @Transactional(readOnly = true)
-    public ListResponse<ChatRoomResponseDto> findChatRoomSelf(LoginMember loginMember) {
+    public ListResponse<ChatRoomResponseDto> findMyChatRoom(LoginMember loginMember) {
         Member member = memberService.findLoginMember(loginMember);
 
-        List<ChatRoom> chatRoomList = chatRoomRepository.findChatRoomsByMember(member);
+        List<ChatRoom> myChatRoomList = chatRoomRepository.findChatRoomsByMember(member);
         List<ChatRoomResponseDto> chatRoomResponseDtoList = ChatRoomResponseDto.listOf(
-            chatRoomList);
+            myChatRoomList);
         return ListResponse.create(chatRoomResponseDtoList);
     }
 
