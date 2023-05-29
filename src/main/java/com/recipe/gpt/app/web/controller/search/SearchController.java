@@ -1,6 +1,6 @@
 package com.recipe.gpt.app.web.controller.search;
 
-import com.recipe.gpt.app.domain.search.ingredient.IngredientService;
+import com.recipe.gpt.app.domain.search.ingredient.IngredientDataService;
 import com.recipe.gpt.app.web.dto.search.IngredientDataResponseDto;
 import com.recipe.gpt.app.web.path.ApiPath;
 import com.recipe.gpt.app.web.response.ListResponse;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SearchController {
 
-    private final IngredientService ingredientService;
+    private final IngredientDataService ingredientService;
 
     @Operation(summary = "식재료 검색")
     @GetMapping(ApiPath.SEARCH_INGREDIENT)

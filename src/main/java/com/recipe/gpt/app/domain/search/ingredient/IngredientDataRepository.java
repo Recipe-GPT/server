@@ -1,4 +1,4 @@
-package com.recipe.gpt.app.domain.search.ingredient.repository;
+package com.recipe.gpt.app.domain.search.ingredient;
 
 import com.recipe.gpt.app.domain.search.ingredient.IngredientData;
 import org.springframework.data.jpa.repository.JpaRepository;

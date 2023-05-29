@@ -1,6 +1,5 @@
 package com.recipe.gpt.app.domain.search.ingredient;
 
-import com.recipe.gpt.app.domain.search.ingredient.repository.IngredientDataRepository;
 import com.recipe.gpt.app.web.dto.search.IngredientDataResponseDto;
 import com.recipe.gpt.app.web.response.ListResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class IngredientService {
+public class IngredientDataService {
 
     private final IngredientDataRepository ingredientDataRepository;
 
