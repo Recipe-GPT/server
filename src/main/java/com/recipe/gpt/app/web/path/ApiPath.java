@@ -15,6 +15,8 @@ public class ApiPath {
     // 레시피 질문
     public static final String RECIPE_QUERY = "/api/v1/recipe/query";
 
+    public static final String SEARCH_INGREDIENT = "/api/v1/search/ingredient";
+
     // 에러 핸들러
     public static final String ERROR_AUTH = "/api/v1/error";
 
