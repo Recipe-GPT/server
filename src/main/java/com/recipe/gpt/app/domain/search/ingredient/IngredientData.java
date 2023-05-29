@@ -1,4 +1,4 @@
-package com.recipe.gpt.app.domain.search;
+package com.recipe.gpt.app.domain.search.ingredient;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
