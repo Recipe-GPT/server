@@ -13,7 +13,7 @@ import com.recipe.gpt.app.web.dto.auth.AccessTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.RefreshTokenResponseDto;
 import com.recipe.gpt.common.config.redis.RefreshToken;
 import com.recipe.gpt.common.config.redis.RefreshTokenRepository;
-import com.recipe.gpt.common.exception.NotFoundRefreshTokenException;
+import com.recipe.gpt.common.exception.RefreshTokenNotFoundException;
 import com.recipe.gpt.common.util.DateUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -111,7 +111,7 @@ public class JwtTokenFactory {
 
     public RefreshToken findRefreshToken(String refreshToken) {
         return refreshTokenRepository.findByRefreshToken(refreshToken)
-            .orElseThrow(NotFoundRefreshTokenException::new);
+            .orElseThrow(RefreshTokenNotFoundException::new);
     }
 
 }

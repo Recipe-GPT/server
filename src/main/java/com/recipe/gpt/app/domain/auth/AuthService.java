@@ -8,7 +8,7 @@ import com.recipe.gpt.app.web.dto.auth.OAuthMember;
 import com.recipe.gpt.app.web.dto.auth.TokenRenewalRequestDto;
 import com.recipe.gpt.common.config.redis.RefreshToken;
 import com.recipe.gpt.common.config.security.jwt.JwtTokenFactory;
-import com.recipe.gpt.common.exception.NotFoundMemberException;
+import com.recipe.gpt.common.exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ public class AuthService {
     public AccessTokenResponseDto refreshAccessToken(TokenRenewalRequestDto body) {
         RefreshToken refreshToken = jwtTokenFactory.findRefreshToken(body.getRefreshToken());
         Member member = memberRepository.findById(refreshToken.getMemberId())
-            .orElseThrow(NotFoundMemberException::new);
+            .orElseThrow(MemberNotFoundException::new);
         return jwtTokenFactory.generateAccessToken(member);
     }
 
