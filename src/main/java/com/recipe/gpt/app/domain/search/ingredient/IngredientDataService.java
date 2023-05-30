@@ -16,9 +16,9 @@ public class IngredientDataService {
 
     @Transactional(readOnly = true)
     public ListResponse<IngredientDataResponseDto> searchIngredient(String query) {
-        List<IngredientDataResponseDto> responseList = ingredientDataRepository.findByNameContains(query).stream()
-                .map(IngredientDataResponseDto::of)
-                .toList();
-        return ListResponse.create(responseList);
+        List<IngredientData> ingredientList = ingredientDataRepository.findByNameContains(query);
+        return ListResponse.create(
+                IngredientDataResponseDto.listOf(ingredientList)
+        );
     }
 }

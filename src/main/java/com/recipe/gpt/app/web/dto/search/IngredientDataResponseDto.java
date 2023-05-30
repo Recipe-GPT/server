@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
@@ -23,6 +26,12 @@ public class IngredientDataResponseDto {
                 ingredient.getId(),
                 ingredient.getName()
         );
+    }
+
+    public static List<IngredientDataResponseDto> listOf(List<IngredientData> ingredientData) {
+        return ingredientData.stream()
+                .map(IngredientDataResponseDto::of)
+                .collect(Collectors.toList());
     }
 
 }

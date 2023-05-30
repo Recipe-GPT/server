@@ -33,7 +33,7 @@ public class SearchController {
     @Operation(summary = "양념 검색")
     @GetMapping(ApiPath.SEARCH_SEASONING)
     public ResponseEntity<ListResponse<SeasoningDataResponseDto>> searchSeasoning(
-            @RequestParam String query
+        @RequestParam String query
     ) {
         return ResponseEntity.ok(seasoningDataService.searchSeasoning(query));
     }
