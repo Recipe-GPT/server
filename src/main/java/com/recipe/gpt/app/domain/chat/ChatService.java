@@ -1,8 +1,9 @@
 package com.recipe.gpt.app.domain.chat;
 
-
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRequestDto;
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerResponseDto;
+import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeRequestDto;
+import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeResponseDto;
+import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendRequestDto;
+import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendResponseDto;
 import com.recipe.gpt.app.web.response.ListResponse;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,13 +22,16 @@ public class ChatService {
     @Value("${api.base-url}")
     private String baseUrl;
 
-    @Value("${api.uri}")
-    private String uri;
+    @Value("${api.uri-recommend}")
+    private String recommendUri;
+
+    @Value("${api.uri-recipe}")
+    private String recipeUri;
 
     /**
      * 레시피 질문
      */
-    public ListResponse<AiServerResponseDto> recipeQuery(AiServerRequestDto body) {
+    public ListResponse<AiServerRecommendResponseDto> recommendQuery(AiServerRecommendRequestDto body) {
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("ingredients", body.getIngredients());
         bodyMap.put("seasonings", body.getSeasonings());
@@ -38,16 +42,40 @@ public class ChatService {
             .defaultHeader("x-api-key", apiKey)
             .build();
 
-        AiServerResponseDto[] responseArray = webClient
+        AiServerRecommendResponseDto[] responseArray = webClient
             .post()
-            .uri(uri)
+            .uri(recommendUri)
             .bodyValue(bodyMap)
             .retrieve()
-            .bodyToMono(AiServerResponseDto[].class)
+            .bodyToMono(AiServerRecommendResponseDto[].class)
             .block();
 
-        List<AiServerResponseDto> responseList = Arrays.asList(responseArray);
+        List<AiServerRecommendResponseDto> responseList = Arrays.asList(responseArray);
         return ListResponse.create(responseList);
+    }
+
+    public AiServerRecipeResponseDto recipeQuery(AiServerRecipeRequestDto body) {
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put("name", body.getName());
+        bodyMap.put("description", body.getDescription());
+        bodyMap.put("ingredients", body.getIngredients());
+        bodyMap.put("seasonings", body.getSeasonings());
+
+        WebClient webClient = WebClient
+            .builder()
+            .baseUrl(baseUrl)
+            .defaultHeader("x-api-key", apiKey)
+            .build();
+
+        AiServerRecipeResponseDto response = webClient
+            .post()
+            .uri(recipeUri)
+            .bodyValue(bodyMap)
+            .retrieve()
+            .bodyToMono(AiServerRecipeResponseDto.class)
+            .block();
+
+        return response;
     }
 
 }

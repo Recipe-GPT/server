@@ -13,7 +13,8 @@ public class ApiPath {
     public static final String MEMBER = "/api/v1/member";
 
     // 레시피 질문
-    public static final String RECIPE_QUERY = "/api/v1/recipe/query";
+    public static final String QUERY_RECOMMEND = "/api/v1/query/recommend";
+    public static final String QUERY_RECIPE = "/api/v1/query/recipe";
 
     // 식재료, 양념 검색
     public static final String SEARCH_INGREDIENT = "/api/v1/search/ingredient";

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class AiServerResponseDto {
+public class AiServerRecommendResponseDto {
 
     private String name;
 

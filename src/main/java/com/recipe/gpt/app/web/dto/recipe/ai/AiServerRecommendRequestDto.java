@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class AiServerRequestDto {
+public class AiServerRecommendRequestDto {
 
     @NotEmpty
     @Size(min = 3, max = 20)
