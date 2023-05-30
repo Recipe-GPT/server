@@ -4,6 +4,7 @@ import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeRequestDto;
 import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeResponseDto;
 import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendRequestDto;
 import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendResponseDto;
+import com.recipe.gpt.app.web.dto.recipe.ai.ExtractedRecipeResponseDto;
 import com.recipe.gpt.app.web.response.ListResponse;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class ChatService {
         return ListResponse.create(responseList);
     }
 
-    public AiServerRecipeResponseDto recipeQuery(AiServerRecipeRequestDto body) {
+    public ExtractedRecipeResponseDto recipeQuery(AiServerRecipeRequestDto body) {
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("name", body.getName());
         bodyMap.put("description", body.getDescription());
@@ -75,7 +76,7 @@ public class ChatService {
             .bodyToMono(AiServerRecipeResponseDto.class)
             .block();
 
-        return response;
+        return ExtractedRecipeResponseDto.of(response);
     }
 
 }

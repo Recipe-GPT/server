@@ -2,9 +2,9 @@ package com.recipe.gpt.app.web.controller.recipe;
 
 import com.recipe.gpt.app.domain.chat.ChatService;
 import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeRequestDto;
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeResponseDto;
 import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendRequestDto;
 import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendResponseDto;
+import com.recipe.gpt.app.web.dto.recipe.ai.ExtractedRecipeResponseDto;
 import com.recipe.gpt.app.web.path.ApiPath;
 import com.recipe.gpt.app.web.response.ListResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +33,7 @@ public class RecipeController {
 
     @Operation(summary = "레시피 질문")
     @PostMapping(ApiPath.QUERY_RECIPE)
-    public ResponseEntity<AiServerRecipeResponseDto> recipeQuery(
+    public ResponseEntity<ExtractedRecipeResponseDto> recipeQuery(
         @Valid @RequestBody AiServerRecipeRequestDto body
     ) {
         return ResponseEntity.ok(chatService.recipeQuery(body));
