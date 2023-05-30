@@ -15,6 +15,10 @@ public class ApiPath {
     // 레시피 질문
     public static final String RECIPE_QUERY = "/api/v1/recipe/query";
 
+    // 식재료, 양념 검색
+    public static final String SEARCH_INGREDIENT = "/api/v1/search/ingredient";
+    public static final String SEARCH_SEASONING = "/api/v1/search/seasoning";
+
     // 채팅방
     public static final String CHATROOM_CREATE = "/api/v1/chatroom";
 
@@ -23,7 +27,6 @@ public class ApiPath {
     public static final String CHATROOM_FIND = "/api/v1/chatroom/find";
 
     public static final String CHATROOM_UPDATE = "/api/v1/chatroom/update/{id}";
-
 
     // 에러 핸들러
     public static final String ERROR_AUTH = "/api/v1/error";
