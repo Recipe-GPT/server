@@ -16,5 +16,4 @@ public class GoogleProperties {
 
     private final String redirectUri;
 
-
 }
