@@ -33,50 +33,54 @@ public class ChatService {
      * 레시피 질문
      */
     public ListResponse<AiServerRecommendResponseDto> recommendQuery(AiServerRecommendRequestDto body) {
+        // [1] DTO 설정
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("ingredients", body.getIngredients());
         bodyMap.put("seasonings", body.getSeasonings());
 
-        WebClient webClient = WebClient
-            .builder()
-            .baseUrl(baseUrl)
-            .defaultHeader("x-api-key", apiKey)
-            .build();
+        // [2] BaseWebClient
+        WebClient baseWebClient = getBaseWebClient();
 
-        AiServerRecommendResponseDto[] responseArray = webClient
-            .post()
-            .uri(recommendUri)
-            .bodyValue(bodyMap)
-            .retrieve()
-            .bodyToMono(AiServerRecommendResponseDto[].class)
-            .block();
-
+        // [3] 외부 API 서버에 Post 요청
+        AiServerRecommendResponseDto[] responseArray = postRequest(recommendUri, bodyMap, AiServerRecommendResponseDto[].class, baseWebClient);
         List<AiServerRecommendResponseDto> responseList = Arrays.asList(responseArray);
+
         return ListResponse.create(responseList);
     }
 
     public ExtractedRecipeResponseDto recipeQuery(AiServerRecipeRequestDto body) {
+        // [1] DTO 설정
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("name", body.getName());
         bodyMap.put("description", body.getDescription());
         bodyMap.put("ingredients", body.getIngredients());
         bodyMap.put("seasonings", body.getSeasonings());
 
-        WebClient webClient = WebClient
+        // [2] BaseWebClient
+        WebClient baseWebClient = getBaseWebClient();
+
+        // [3] 외부 API 서버에 Post 요청
+        AiServerRecipeResponseDto response = postRequest(recipeUri, bodyMap, AiServerRecipeResponseDto.class, baseWebClient);
+
+        return ExtractedRecipeResponseDto.of(response);
+    }
+
+    public WebClient getBaseWebClient() {
+        return WebClient
             .builder()
             .baseUrl(baseUrl)
             .defaultHeader("x-api-key", apiKey)
             .build();
+    }
 
-        AiServerRecipeResponseDto response = webClient
+    private <T> T postRequest(String uri, Map<String, Object> bodyMap, Class<T> responseType, WebClient webClient) {
+        return webClient
             .post()
-            .uri(recipeUri)
+            .uri(uri)
             .bodyValue(bodyMap)
             .retrieve()
-            .bodyToMono(AiServerRecipeResponseDto.class)
+            .bodyToMono(responseType)
             .block();
-
-        return ExtractedRecipeResponseDto.of(response);
     }
 
 }
