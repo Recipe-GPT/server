@@ -32,7 +32,8 @@ public class ChatService {
     /**
      * 레시피 질문
      */
-    public ListResponse<AiServerRecommendResponseDto> recommendQuery(AiServerRecommendRequestDto body) {
+    public ListResponse<AiServerRecommendResponseDto> recommendQuery(
+        AiServerRecommendRequestDto body) {
         // [1] DTO 설정
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("ingredients", body.getIngredients());
@@ -42,7 +43,8 @@ public class ChatService {
         WebClient baseWebClient = getBaseWebClient();
 
         // [3] 외부 API 서버에 Post 요청
-        AiServerRecommendResponseDto[] responseArray = postRequest(recommendUri, bodyMap, AiServerRecommendResponseDto[].class, baseWebClient);
+        AiServerRecommendResponseDto[] responseArray = postRequest(recommendUri, bodyMap,
+            AiServerRecommendResponseDto[].class, baseWebClient);
         List<AiServerRecommendResponseDto> responseList = Arrays.asList(responseArray);
 
         return ListResponse.create(responseList);
@@ -60,7 +62,8 @@ public class ChatService {
         WebClient baseWebClient = getBaseWebClient();
 
         // [3] 외부 API 서버에 Post 요청
-        AiServerRecipeResponseDto response = postRequest(recipeUri, bodyMap, AiServerRecipeResponseDto.class, baseWebClient);
+        AiServerRecipeResponseDto response = postRequest(recipeUri, bodyMap,
+            AiServerRecipeResponseDto.class, baseWebClient);
 
         return ExtractedRecipeResponseDto.of(response);
     }
@@ -73,7 +76,8 @@ public class ChatService {
             .build();
     }
 
-    private <T> T postRequest(String uri, Map<String, Object> bodyMap, Class<T> responseType, WebClient webClient) {
+    private <T> T postRequest(String uri, Map<String, Object> bodyMap, Class<T> responseType,
+        WebClient webClient) {
         return webClient
             .post()
             .uri(uri)
