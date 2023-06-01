@@ -43,10 +43,13 @@ public class ChatService {
         WebClient baseWebClient = getBaseWebClient();
 
         // [3] 외부 API 서버에 Post 요청
-        AiServerRecommendResponseDto[] responseArray = postRequest(recommendUri, bodyMap,
-            AiServerRecommendResponseDto[].class, baseWebClient);
-        List<AiServerRecommendResponseDto> responseList = Arrays.asList(responseArray);
+        AiServerRecommendResponseDto[] responseArray = postRequest(
+            recommendUri,
+            bodyMap,
+            AiServerRecommendResponseDto[].class,
+            baseWebClient);
 
+        List<AiServerRecommendResponseDto> responseList = Arrays.asList(responseArray);
         return ListResponse.create(responseList);
     }
 
@@ -62,8 +65,11 @@ public class ChatService {
         WebClient baseWebClient = getBaseWebClient();
 
         // [3] 외부 API 서버에 Post 요청
-        AiServerRecipeResponseDto response = postRequest(recipeUri, bodyMap,
-            AiServerRecipeResponseDto.class, baseWebClient);
+        AiServerRecipeResponseDto response = postRequest(
+            recipeUri,
+            bodyMap,
+            AiServerRecipeResponseDto.class,
+            baseWebClient);
 
         return ExtractedRecipeResponseDto.of(response);
     }
