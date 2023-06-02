@@ -32,7 +32,5 @@ springdoc:
 api:
   x-api-key: ${recipe.gpt.api.x-api-key}
   base-url: ${recipe.gpt.api.base-url}
-  uri: ${recipe.gpt.api.uri}
-
-
-
+  uri-recommend: ${recipe.gpt.api.uri.recommend}
+  uri-recipe: ${recipe.gpt.api.uri.recipe}

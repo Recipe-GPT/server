@@ -53,7 +53,7 @@ public class WebSecurityConfig {
             // 에러 핸들러
             .requestMatchers(ApiPath.ERROR_AUTH).permitAll()
             // 레시피 질문
-            .requestMatchers(ApiPath.RECIPE_QUERY).permitAll()
+            .requestMatchers(ApiPath.QUERY_RECIPE, ApiPath.QUERY_RECOMMEND).permitAll()
             // 식재료, 양념 검색
             .requestMatchers(ApiPath.SEARCH_INGREDIENT, ApiPath.SEARCH_SEASONING).permitAll()
             .anyRequest().authenticated()
