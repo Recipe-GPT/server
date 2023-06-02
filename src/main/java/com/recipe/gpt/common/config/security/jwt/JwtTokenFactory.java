@@ -13,7 +13,6 @@ import com.recipe.gpt.app.web.dto.auth.AccessTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.RefreshTokenResponseDto;
 import com.recipe.gpt.common.config.redis.RefreshToken;
 import com.recipe.gpt.common.config.redis.RefreshTokenRepository;
-import com.recipe.gpt.common.config.security.context.LoginMember;
 import com.recipe.gpt.common.exception.RefreshTokenNotFoundException;
 import com.recipe.gpt.common.util.DateUtils;
 import io.jsonwebtoken.Claims;
@@ -98,8 +97,8 @@ public class JwtTokenFactory {
     /**
      * 리프레시 토큰 삭제
      */
-    public void expirationRefreshToken(LoginMember loginMember) {
-        RefreshToken redisRefreshToken = refreshTokenRepository.findByMemberId(loginMember.getId())
+    public void expirationRefreshToken(String refreshToken) {
+        RefreshToken redisRefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken)
             .orElseThrow(RefreshTokenNotFoundException::new);
 
         // Redis 삭제
