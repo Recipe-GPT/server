@@ -94,6 +94,17 @@ public class JwtTokenFactory {
         );
     }
 
+    /**
+     * 리프레시 토큰 삭제
+     */
+    public void expirationRefreshToken(String refreshToken) {
+        RefreshToken redisRefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken)
+            .orElseThrow(RefreshTokenNotFoundException::new);
+
+        // Redis 삭제
+        refreshTokenRepository.delete(redisRefreshToken);
+    }
+
     private Map<String, Object> createJwtClaims(Member member) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(MEMBER_EMAIL, member.getEmail());
