@@ -9,6 +9,8 @@ public class ApiPath {
 
     public static final String VALIDATE_TOKEN = "/api/v1/oauth/validate";
 
+    public static final String LOGOUT = "/api/v1/logout";
+
     // 멤버
     public static final String MEMBER = "/api/v1/member";
 

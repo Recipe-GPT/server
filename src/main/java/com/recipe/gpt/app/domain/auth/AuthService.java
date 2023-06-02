@@ -7,6 +7,7 @@ import com.recipe.gpt.app.web.dto.auth.AccessTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.OAuthMember;
 import com.recipe.gpt.app.web.dto.auth.TokenRenewalRequestDto;
 import com.recipe.gpt.common.config.redis.RefreshToken;
+import com.recipe.gpt.common.config.security.context.LoginMember;
 import com.recipe.gpt.common.config.security.jwt.JwtTokenFactory;
 import com.recipe.gpt.common.exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,13 @@ public class AuthService {
             return memberRepository.getByEmail(email);
         }
         return memberRepository.save(oAuthMember.toMember());
+    }
+
+    /**
+     * 리프레시 토큰 삭제
+     */
+    public void expirationRefreshToken(LoginMember loginMember) {
+        jwtTokenFactory.expirationRefreshToken(loginMember);
     }
 
 }
