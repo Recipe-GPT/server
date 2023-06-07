@@ -1,13 +1,12 @@
-package com.recipe.gpt.app.domain.board.recipe;
+package com.recipe.gpt.app.domain.recipe.ingredient;
 
-import com.recipe.gpt.app.domain.board.Board;
+import com.recipe.gpt.app.domain.recipe.Recipe;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -17,27 +16,27 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class RecipeItem {
+public class IngredientItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long sequence;
+    @Column(nullable = false, length = 20)
+    private String name;
 
-    @Lob
-    @Column(nullable = false, length = 200)
-    private String description;
+    @Column(nullable = false, length = 10)
+    private String quantity;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
 
     @Builder
-    private RecipeItem(Board board, Long sequence, String description) {
-        this.board = board;
-        this.sequence = sequence;
-        this.description = description;
+    private IngredientItem(Recipe recipe, String name, String quantity) {
+        this.recipe = recipe;
+        this.name = name;
+        this.quantity = quantity;
     }
 
 }

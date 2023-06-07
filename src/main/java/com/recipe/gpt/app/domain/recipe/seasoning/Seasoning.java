@@ -1,4 +1,4 @@
-package com.recipe.gpt.app.domain.board.recipe;
+package com.recipe.gpt.app.domain.recipe.seasoning;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Recipe {
+public class Seasoning {
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<RecipeItem> recipe = new ArrayList<>();
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<SeasoningItem> seasoning = new ArrayList<>();
 
-    public static Recipe empty() {
-        return new Recipe();
+    public static Seasoning empty() {
+        return new Seasoning();
     }
 
     // TODO::메서드 추가

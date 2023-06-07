@@ -1,6 +1,6 @@
-package com.recipe.gpt.app.domain.board.seasoning;
+package com.recipe.gpt.app.domain.recipe.seasoning;
 
-import com.recipe.gpt.app.domain.board.Board;
+import com.recipe.gpt.app.domain.recipe.Recipe;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,12 +29,12 @@ public class SeasoningItem {
     private String quantity;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
 
     @Builder
-    private SeasoningItem(Board board, String name, String quantity) {
-        this.board = board;
+    private SeasoningItem(Recipe recipe, String name, String quantity) {
+        this.recipe = recipe;
         this.name = name;
         this.quantity = quantity;
     }

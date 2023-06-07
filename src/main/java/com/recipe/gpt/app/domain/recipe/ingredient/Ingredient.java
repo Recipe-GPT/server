@@ -1,4 +1,4 @@
-package com.recipe.gpt.app.domain.board.ingredient;
+package com.recipe.gpt.app.domain.recipe.ingredient;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Ingredient {
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<IngredientItem> ingredient = new ArrayList<>();
 
     public static Ingredient empty() {
