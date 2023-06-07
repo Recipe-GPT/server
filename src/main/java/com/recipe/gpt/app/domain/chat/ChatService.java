@@ -1,96 +1,96 @@
 package com.recipe.gpt.app.domain.chat;
 
+import com.recipe.gpt.app.domain.chat.chatroom.ChatRoom;
+import com.recipe.gpt.app.domain.chat.chatroom.ChatRoomService;
+import com.recipe.gpt.app.domain.chat.recommendrecipe.RecommendRecipeItem;
+import com.recipe.gpt.app.domain.chat.requested.ingredient.RequestedIngredientItem;
+import com.recipe.gpt.app.domain.chat.requested.seasoning.RequestedSeasoningItem;
+import com.recipe.gpt.app.domain.member.Member;
+import com.recipe.gpt.app.domain.member.MemberService;
 import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeRequestDto;
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeResponseDto;
 import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendRequestDto;
 import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendResponseDto;
 import com.recipe.gpt.app.web.dto.recipe.ai.ExtractedRecipeResponseDto;
 import com.recipe.gpt.app.web.response.ListResponse;
-import java.util.Arrays;
-import java.util.HashMap;
+import com.recipe.gpt.common.config.security.context.LoginMember;
+import com.recipe.gpt.common.exception.NotPossibleToAccessChatRoomException;
 import java.util.List;
-import java.util.Map;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ChatService {
 
-    @Value("${api.x-api-key}")
-    private String apiKey;
+    private final ChatClient chatClient;
 
-    @Value("${api.base-url}")
-    private String baseUrl;
+    private final ChatRepository chatRepository;
 
-    @Value("${api.uri-recommend}")
-    private String recommendUri;
+    private final MemberService memberService;
 
-    @Value("${api.uri-recipe}")
-    private String recipeUri;
+    private final ChatRoomService chatRoomService;
+
+    /**
+     * 요리 추천 질문
+     */
+    public ListResponse<AiServerRecommendResponseDto> recommendQuery(
+        LoginMember loginMember, Long chatRoomId, AiServerRecommendRequestDto body) {
+        Member member = memberService.findLoginMember(loginMember);
+        ChatRoom chatRoom = chatRoomService.findById(chatRoomId);
+
+        if (!chatRoom.isAccessibleToChatRoom(member)) {
+            throw new NotPossibleToAccessChatRoomException();
+        }
+
+        List<AiServerRecommendResponseDto> responseList = chatClient.recommendQuery(body);
+        save(member, chatRoom, body, responseList);
+        return ListResponse.create(responseList);
+    }
 
     /**
      * 레시피 질문
      */
-    public ListResponse<AiServerRecommendResponseDto> recommendQuery(
-        AiServerRecommendRequestDto body) {
-        // [1] DTO 설정
-        Map<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put("ingredients", body.getIngredients());
-        bodyMap.put("seasonings", body.getSeasonings());
-
-        // [2] BaseWebClient
-        WebClient baseWebClient = getBaseWebClient();
-
-        // [3] 외부 API 서버에 Post 요청
-        AiServerRecommendResponseDto[] responseArray = postRequest(
-            recommendUri,
-            bodyMap,
-            AiServerRecommendResponseDto[].class,
-            baseWebClient);
-
-        List<AiServerRecommendResponseDto> responseList = Arrays.asList(responseArray);
-        return ListResponse.create(responseList);
+    public ExtractedRecipeResponseDto recipeQuery(
+        LoginMember loginMember, Long chatRoomId, AiServerRecipeRequestDto body) {
+        ExtractedRecipeResponseDto response = chatClient.recipeQuery(body);
+        return response;
     }
 
-    public ExtractedRecipeResponseDto recipeQuery(AiServerRecipeRequestDto body) {
-        // [1] DTO 설정
-        Map<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put("name", body.getName());
-        bodyMap.put("description", body.getDescription());
-        bodyMap.put("ingredients", body.getIngredients());
-        bodyMap.put("seasonings", body.getSeasonings());
+    @Transactional
+    public void save(Member member,
+        ChatRoom chatRoom,
+        AiServerRecommendRequestDto body,
+        List<AiServerRecommendResponseDto> responseList) {
 
-        // [2] BaseWebClient
-        WebClient baseWebClient = getBaseWebClient();
-
-        // [3] 외부 API 서버에 Post 요청
-        AiServerRecipeResponseDto response = postRequest(
-            recipeUri,
-            bodyMap,
-            AiServerRecipeResponseDto.class,
-            baseWebClient);
-
-        return ExtractedRecipeResponseDto.of(response);
-    }
-
-    public WebClient getBaseWebClient() {
-        return WebClient
-            .builder()
-            .baseUrl(baseUrl)
-            .defaultHeader("x-api-key", apiKey)
+        Chat chat = Chat.builder()
+            .chatRoom(chatRoom)
+            .member(member)
             .build();
+
+        List<RequestedIngredientItem> requestedIngredientItems = body.toRequestedIngredientItems();
+        List<RequestedSeasoningItem> requestedSeasoningItems = body.toRequestedSeasoningItems();
+        List<RecommendRecipeItem> recommendRecipeItems = responseList.stream()
+            .map(AiServerRecommendResponseDto::toRecommendRecipeItem)
+            .toList();
+
+        setChat(chat, requestedIngredientItems, requestedSeasoningItems, recommendRecipeItems);
+        chatRepository.save(chat);
     }
 
-    private <T> T postRequest(String uri, Map<String, Object> bodyMap, Class<T> responseType,
-        WebClient webClient) {
-        return webClient
-            .post()
-            .uri(uri)
-            .bodyValue(bodyMap)
-            .retrieve()
-            .bodyToMono(responseType)
-            .block();
+    private void setChat(Chat chat,
+        List<RequestedIngredientItem> requestedIngredientItems,
+        List<RequestedSeasoningItem> requestedSeasoningItems,
+        List<RecommendRecipeItem> recommendRecipeItems) {
+        for (RequestedIngredientItem requestedIngredientItem : requestedIngredientItems) {
+            requestedIngredientItem.setChat(chat);
+        }
+        for (RequestedSeasoningItem requestedSeasoningItem : requestedSeasoningItems) {
+            requestedSeasoningItem.setChat(chat);
+        }
+        for (RecommendRecipeItem recommendRecipeItem : recommendRecipeItems) {
+            recommendRecipeItem.setChat(chat);
+        }
     }
 
 }
