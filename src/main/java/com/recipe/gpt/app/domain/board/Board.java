@@ -1,12 +1,9 @@
 package com.recipe.gpt.app.domain.board;
 
 import com.recipe.gpt.app.domain.BaseTimeEntity;
-import com.recipe.gpt.app.domain.board.ingredient.Ingredient;
-import com.recipe.gpt.app.domain.board.recipe.Recipe;
-import com.recipe.gpt.app.domain.board.seasoning.Seasoning;
 import com.recipe.gpt.app.domain.member.Member;
+import com.recipe.gpt.app.domain.recipe.Recipe;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,9 +28,6 @@ public class Board extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 20)
-    private String name;
-
     @Column(nullable = false)
     private Long serving;
 
@@ -43,22 +38,14 @@ public class Board extends BaseTimeEntity {
     private Difficulty difficulty;
 
     @Lob
-    private String description;
-
-    @Lob
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Embedded
-    private Ingredient ingredient = Ingredient.empty();
-
-    @Embedded
-    private Seasoning seasoning = Seasoning.empty();
-
-    @Embedded
-    private Recipe recipe = Recipe.empty();
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
 
 }
