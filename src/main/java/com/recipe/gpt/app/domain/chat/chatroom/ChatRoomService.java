@@ -35,7 +35,7 @@ public class ChatRoomService {
 
         ChatRoom chatRoom = findById(id);
 
-        if (!chatRoom.isAccessibleChatRoom(member)) {
+        if (!chatRoom.isAccessibleToChatRoom(member)) {
             throw new NotPossibleToAccessChatRoomException();
         }
 
@@ -57,7 +57,7 @@ public class ChatRoomService {
         Member member = memberService.findLoginMember(loginMember);
         ChatRoom chatRoom = findById(id);
 
-        if (!chatRoom.isAccessibleChatRoom(member)) {
+        if (!chatRoom.isAccessibleToChatRoom(member)) {
             throw new NotPossibleToAccessChatRoomException();
         }
 
@@ -65,7 +65,8 @@ public class ChatRoomService {
         chatRoom.update(requestChatRoom);
     }
 
-    private ChatRoom findById(Long id) {
+    @Transactional(readOnly = true)
+    public ChatRoom findById(Long id) {
         return chatRoomRepository.findById(id)
             .orElseThrow(ChatRoomNotFoundException::new);
     }
