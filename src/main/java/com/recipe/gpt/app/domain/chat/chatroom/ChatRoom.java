@@ -36,7 +36,7 @@ public class ChatRoom {
         this.member = member;
     }
 
-    public boolean isAccessibleChatRoom(Member member) {
+    public boolean isAccessibleToChatRoom(Member member) {
         if (member == null) {
             return false;
         }
