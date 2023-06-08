@@ -1,6 +1,7 @@
 package com.recipe.gpt.app.web.controller.chat.chatroom;
 
 import com.recipe.gpt.app.domain.chat.chatroom.ChatRoomService;
+import com.recipe.gpt.app.web.dto.chat.ChatResponseDto;
 import com.recipe.gpt.app.web.dto.chat.chatroom.ChatRoomRequestDto;
 import com.recipe.gpt.app.web.dto.chat.chatroom.ChatRoomResponseDto;
 import com.recipe.gpt.app.web.path.ApiPath;
@@ -63,5 +64,15 @@ public class ChatRoomController {
         chatRoomService.deleteChatRoom(loginMember, id);
         return ResponseEntity.ok().build();
     }
+
+    @Operation(summary = "채팅 리스트 조회")
+    @GetMapping(ApiPath.CHATROOM_CHAT_LIST)
+    public ResponseEntity<ListResponse<ChatResponseDto>> findChatList(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(chatRoomService.findChatList(loginMember, id));
+    }
+
 
 }
