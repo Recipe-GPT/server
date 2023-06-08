@@ -21,8 +21,8 @@ public class RecommendRecipe {
         return new RecommendRecipe();
     }
 
-    public void clear() {
-        recommendRecipe.clear();
+    public List<RecommendRecipeItem> getRecommendRecipeItems() {
+        return recommendRecipe;
     }
 
     public void addRecommendRecipeItem(RecommendRecipeItem recommendRecipeItem) {
