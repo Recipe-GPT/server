@@ -1,4 +1,4 @@
-package com.recipe.gpt.app.web.dto.recipe.ai;
+package com.recipe.gpt.app.web.dto.ai;
 
 import com.recipe.gpt.common.util.StringUtils;
 import java.util.List;
