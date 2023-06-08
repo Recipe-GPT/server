@@ -25,7 +25,7 @@ public class SeasoningItem {
     @Column(nullable = false, length = 20)
     private String name;
 
-    @Column(nullable = false, length = 10)
+    @Column(length = 10)
     private String quantity;
 
     @ManyToOne
@@ -37,6 +37,15 @@ public class SeasoningItem {
         this.recipe = recipe;
         this.name = name;
         this.quantity = quantity;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+        recipe.getSeasoning().addSeasoningItem(this);
+    }
+
+    public boolean isSameSeasoningWith(SeasoningItem seasoningItem) {
+        return this.name.equals(seasoningItem.name);
     }
 
 }

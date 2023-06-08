@@ -1,5 +1,6 @@
 package com.recipe.gpt.app.domain.recipe.seasoning;
 
+import com.recipe.gpt.common.exception.RecipeItemDuplicatedException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
@@ -21,6 +22,21 @@ public class Seasoning {
         return new Seasoning();
     }
 
-    // TODO::메서드 추가
+    public List<SeasoningItem> getSeasoningItems() {
+        return seasoning;
+    }
+
+    public void addSeasoningItem(SeasoningItem seasoningItem) {
+        if (isContainSeasoningItem(seasoningItem)) {
+            throw new RecipeItemDuplicatedException();
+        }
+
+        seasoning.add(seasoningItem);
+    }
+
+    private boolean isContainSeasoningItem(SeasoningItem seasoningItem) {
+        return seasoning.stream()
+            .anyMatch(item -> item.isSameSeasoningWith(seasoningItem));
+    }
 
 }
