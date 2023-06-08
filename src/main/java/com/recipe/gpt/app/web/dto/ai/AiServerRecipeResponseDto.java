@@ -1,4 +1,4 @@
-package com.recipe.gpt.app.web.dto.recipe.ai;
+package com.recipe.gpt.app.web.dto.ai;
 
 import java.util.List;
 import lombok.AccessLevel;

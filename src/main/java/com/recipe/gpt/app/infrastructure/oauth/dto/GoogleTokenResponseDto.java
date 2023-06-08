@@ -12,5 +12,4 @@ public class GoogleTokenResponseDto {
 
     private String idToken;
 
-
 }

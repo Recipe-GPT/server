@@ -20,7 +20,6 @@ public class RefreshToken {
     @Indexed
     private String refreshToken;
 
-    @Indexed
     private Long memberId;
 
 }

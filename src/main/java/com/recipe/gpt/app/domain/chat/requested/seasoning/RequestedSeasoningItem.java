@@ -1,6 +1,6 @@
-package com.recipe.gpt.app.domain.board.seasoning;
+package com.recipe.gpt.app.domain.chat.requested.seasoning;
 
-import com.recipe.gpt.app.domain.board.Board;
+import com.recipe.gpt.app.domain.chat.Chat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class SeasoningItem {
+public class RequestedSeasoningItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,18 +25,23 @@ public class SeasoningItem {
     @Column(nullable = false, length = 20)
     private String name;
 
-    @Column(nullable = false, length = 10)
-    private String quantity;
-
     @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "chat_id")
+    private Chat chat;
 
     @Builder
-    private SeasoningItem(Board board, String name, String quantity) {
-        this.board = board;
+    private RequestedSeasoningItem(Chat chat, String name) {
+        this.chat = chat;
         this.name = name;
-        this.quantity = quantity;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
+        chat.getRequestedSeasoning().addRequestedSeasoningItem(this);
+    }
+
+    public boolean isSameSeasoningWith(RequestedSeasoningItem requestedSeasoningItem) {
+        return this.name.equals(requestedSeasoningItem.name);
     }
 
 }

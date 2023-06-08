@@ -1,6 +1,6 @@
-package com.recipe.gpt.app.domain.board.recipe;
+package com.recipe.gpt.app.domain.recipe.procedure;
 
-import com.recipe.gpt.app.domain.board.Board;
+import com.recipe.gpt.app.domain.recipe.Recipe;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,27 +17,29 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class RecipeItem {
+public class ProcedureItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long sequence;
 
     @Lob
     @Column(nullable = false, length = 200)
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
 
     @Builder
-    private RecipeItem(Board board, Long sequence, String description) {
-        this.board = board;
-        this.sequence = sequence;
+    private ProcedureItem(Recipe recipe, String description) {
+        this.recipe = recipe;
         this.description = description;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+        recipe.getProcedure().addProcedureItem(this);
     }
 
 }
