@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,5 +38,11 @@ public class Recipe {
 
     @Embedded
     private Procedure procedure = Procedure.empty();
+
+    @Builder
+    private Recipe(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
 }
