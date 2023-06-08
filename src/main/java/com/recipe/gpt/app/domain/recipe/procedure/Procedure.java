@@ -21,6 +21,12 @@ public class Procedure {
         return new Procedure();
     }
 
-    // TODO::메서드 추가
+    public List<ProcedureItem> getProcedureItems() {
+        return procedure;
+    }
+
+    public void addProcedureItem(ProcedureItem procedureItem) {
+        procedure.add(procedureItem);
+    }
 
 }

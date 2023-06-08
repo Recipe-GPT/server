@@ -37,4 +37,9 @@ public class ProcedureItem {
         this.description = description;
     }
 
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+        recipe.getProcedure().addProcedureItem(this);
+    }
+
 }
