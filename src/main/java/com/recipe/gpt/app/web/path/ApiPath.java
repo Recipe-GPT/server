@@ -4,11 +4,8 @@ public class ApiPath {
 
     // 인증
     public static final String LOGIN_OAUTH2 = "/api/v1/oauth";
-
     public static final String REFRESH_TOKEN = "/api/v1/oauth/refresh";
-
     public static final String VALIDATE_TOKEN = "/api/v1/oauth/validate";
-
     public static final String LOGOUT = "/api/v1/logout";
 
     // 멤버
@@ -24,12 +21,10 @@ public class ApiPath {
 
     // 채팅방
     public static final String CHATROOM_CREATE = "/api/v1/chatroom";
-
     public static final String CHATROOM_DELETE = "/api/v1/chatroom/delete/{id}";
-
     public static final String CHATROOM_FIND = "/api/v1/chatroom/find";
-
     public static final String CHATROOM_UPDATE = "/api/v1/chatroom/update/{id}";
+    public static final String CHATROOM_CHAT_LIST = "/api/v1/chatroom/find/{id}";
 
     // 에러 핸들러
     public static final String ERROR_AUTH = "/api/v1/error";
