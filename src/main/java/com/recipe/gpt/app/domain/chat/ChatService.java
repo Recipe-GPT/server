@@ -7,7 +7,6 @@ import com.recipe.gpt.app.domain.chat.requested.ingredient.RequestedIngredientIt
 import com.recipe.gpt.app.domain.chat.requested.seasoning.RequestedSeasoningItem;
 import com.recipe.gpt.app.domain.member.Member;
 import com.recipe.gpt.app.domain.member.MemberService;
-import com.recipe.gpt.app.domain.recipe.Recipe;
 import com.recipe.gpt.app.domain.recipe.RecipeService;
 import com.recipe.gpt.app.web.dto.ai.AiServerRecipeRequestDto;
 import com.recipe.gpt.app.web.dto.ai.AiServerRecommendRequestDto;
@@ -76,11 +75,8 @@ public class ChatService {
         ExtractedRecipeResponseDto response = chatClient.recipeQuery(body);
 
         // [3] 레시피 저장
-        Recipe recipe = recipeService.saveByAiServerResponse(body, response);
-
-        // [4] 레시피 연관관계 업데이트
         Chat latestChat = findLatestChatByChatRoomId(chatRoom);
-        latestChat.updateRecipe(recipe);
+        recipeService.saveByAiServerResponse(body, response, latestChat);
 
         return response;
     }

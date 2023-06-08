@@ -1,5 +1,6 @@
 package com.recipe.gpt.app.domain.recipe;
 
+import com.recipe.gpt.app.domain.chat.Chat;
 import com.recipe.gpt.app.domain.recipe.ingredient.IngredientItem;
 import com.recipe.gpt.app.domain.recipe.procedure.ProcedureItem;
 import com.recipe.gpt.app.domain.recipe.seasoning.SeasoningItem;
@@ -20,8 +21,8 @@ public class RecipeService {
      * ai server 응답으로 레시피 생성
      */
     @Transactional
-    public Recipe saveByAiServerResponse(AiServerRecipeRequestDto body,
-        ExtractedRecipeResponseDto response) {
+    public void saveByAiServerResponse(AiServerRecipeRequestDto body,
+        ExtractedRecipeResponseDto response, Chat latestChat) {
         Recipe recipe = body.toRecipe();
 
         List<IngredientItem> ingredientItems = response.toIngredientItems();
@@ -29,7 +30,8 @@ public class RecipeService {
         List<ProcedureItem> procedureItems = response.toProcedureItems();
 
         setRecipe(recipe, ingredientItems, seasoningItems, procedureItems);
-        return recipeRepository.save(recipe);
+        setChat(recipe, latestChat);
+        recipeRepository.save(recipe);
     }
 
     private void setRecipe(Recipe recipe,
@@ -45,6 +47,10 @@ public class RecipeService {
         for (ProcedureItem procedureItem : procedureItems) {
             procedureItem.setRecipe(recipe);
         }
+    }
+
+    public void setChat(Recipe recipe, Chat latestChat) {
+        recipe.setChat(latestChat);
     }
 
 }
