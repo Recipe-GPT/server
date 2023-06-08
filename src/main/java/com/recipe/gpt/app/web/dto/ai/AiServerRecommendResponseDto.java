@@ -1,4 +1,4 @@
-package com.recipe.gpt.app.web.dto.recipe.ai;
+package com.recipe.gpt.app.web.dto.ai;
 
 import com.recipe.gpt.app.domain.chat.recommendrecipe.RecommendRecipeItem;
 import java.util.List;

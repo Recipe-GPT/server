@@ -1,4 +1,4 @@
-package com.recipe.gpt.app.web.dto.recipe.ai;
+package com.recipe.gpt.app.web.dto.ai;
 
 import com.recipe.gpt.app.domain.chat.requested.ingredient.RequestedIngredientItem;
 import com.recipe.gpt.app.domain.chat.requested.seasoning.RequestedSeasoningItem;
