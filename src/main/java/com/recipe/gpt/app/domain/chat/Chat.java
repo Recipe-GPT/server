@@ -56,4 +56,8 @@ public class Chat {
         this.chatRoom = chatRoom;
     }
 
+    public void updateRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
 }
