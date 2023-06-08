@@ -48,6 +48,12 @@ public class RecipeResponseDto {
         );
     }
 
+    public static List<RecipeResponseDto> listOf(List<Recipe> recipeList) {
+        return recipeList.stream()
+            .map(RecipeResponseDto::of)
+            .collect(Collectors.toList());
+    }
+
     public static List<String> toProcedures(Procedure procedure) {
         return procedure.getProcedureItems().stream()
             .map(ProcedureItem::getDescription)

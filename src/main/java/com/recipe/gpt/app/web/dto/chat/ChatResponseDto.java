@@ -27,7 +27,7 @@ public class ChatResponseDto {
 
     private List<RecommendRecipeResponseDto> recommendRecipe;
 
-    private RecipeResponseDto recipe;
+    private List<RecipeResponseDto> recipes;
 
     public static ChatResponseDto of(Chat chat) {
         List<String> requestIngredients = toRequestedIngredients(chat.getRequestedIngredient());
@@ -38,7 +38,7 @@ public class ChatResponseDto {
             requestIngredients,
             requestSeasonings,
             RecommendRecipeResponseDto.listOf(chat.getRecommendRecipe()),
-            RecipeResponseDto.of(chat.getRecipe())
+            RecipeResponseDto.listOf(chat.getRecipeList())
         );
     }
 
