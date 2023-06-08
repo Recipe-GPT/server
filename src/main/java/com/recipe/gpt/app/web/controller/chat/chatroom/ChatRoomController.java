@@ -74,5 +74,4 @@ public class ChatRoomController {
         return ResponseEntity.ok(chatRoomService.findChatList(loginMember, id));
     }
 
-
 }

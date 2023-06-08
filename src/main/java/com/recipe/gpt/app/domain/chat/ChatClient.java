@@ -75,8 +75,7 @@ public class ChatClient {
     }
 
     public WebClient getBaseWebClient() {
-        return WebClient
-            .builder()
+        return WebClient.builder()
             .baseUrl(baseUrl)
             .defaultHeader("x-api-key", apiKey)
             .build();
