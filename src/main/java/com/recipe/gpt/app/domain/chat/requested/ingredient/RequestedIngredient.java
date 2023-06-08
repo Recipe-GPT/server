@@ -22,8 +22,8 @@ public class RequestedIngredient {
         return new RequestedIngredient();
     }
 
-    public void clear() {
-        requestedIngredient.clear();
+    public List<RequestedIngredientItem> getRequestedIngredientItems() {
+        return requestedIngredient;
     }
 
     public void addRequestedIngredientItem(RequestedIngredientItem requestedIngredientItem) {

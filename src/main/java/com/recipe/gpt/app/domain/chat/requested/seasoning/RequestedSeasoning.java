@@ -22,8 +22,8 @@ public class RequestedSeasoning {
         return new RequestedSeasoning();
     }
 
-    public void clear() {
-        requestedSeasoning.clear();
+    public List<RequestedSeasoningItem> getRequestedSeasoningItems() {
+        return requestedSeasoning;
     }
 
     public void addRequestedSeasoningItem(RequestedSeasoningItem requestedSeasoningItem) {
