@@ -25,7 +25,7 @@ public class IngredientItem {
     @Column(nullable = false, length = 20)
     private String name;
 
-    @Column(nullable = false, length = 10)
+    @Column(length = 10)
     private String quantity;
 
     @ManyToOne
@@ -37,6 +37,15 @@ public class IngredientItem {
         this.recipe = recipe;
         this.name = name;
         this.quantity = quantity;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+        recipe.getIngredient().addIngredientItem(this);
+    }
+
+    public boolean isSameIngredientWith(IngredientItem ingredientItem) {
+        return this.name.equals(ingredientItem.name);
     }
 
 }
