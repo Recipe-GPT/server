@@ -1,10 +1,10 @@
 package com.recipe.gpt.app.domain.chat;
 
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeRequestDto;
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeResponseDto;
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendRequestDto;
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendResponseDto;
-import com.recipe.gpt.app.web.dto.recipe.ai.ExtractedRecipeResponseDto;
+import com.recipe.gpt.app.web.dto.ai.AiServerRecipeRequestDto;
+import com.recipe.gpt.app.web.dto.ai.AiServerRecipeResponseDto;
+import com.recipe.gpt.app.web.dto.ai.AiServerRecommendRequestDto;
+import com.recipe.gpt.app.web.dto.ai.AiServerRecommendResponseDto;
+import com.recipe.gpt.app.web.dto.ai.ExtractedRecipeResponseDto;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

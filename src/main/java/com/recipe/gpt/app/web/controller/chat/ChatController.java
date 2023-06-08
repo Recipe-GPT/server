@@ -1,10 +1,10 @@
 package com.recipe.gpt.app.web.controller.chat;
 
 import com.recipe.gpt.app.domain.chat.ChatService;
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecipeRequestDto;
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendRequestDto;
-import com.recipe.gpt.app.web.dto.recipe.ai.AiServerRecommendResponseDto;
-import com.recipe.gpt.app.web.dto.recipe.ai.ExtractedRecipeResponseDto;
+import com.recipe.gpt.app.web.dto.ai.AiServerRecipeRequestDto;
+import com.recipe.gpt.app.web.dto.ai.AiServerRecommendRequestDto;
+import com.recipe.gpt.app.web.dto.ai.AiServerRecommendResponseDto;
+import com.recipe.gpt.app.web.dto.ai.ExtractedRecipeResponseDto;
 import com.recipe.gpt.app.web.path.ApiPath;
 import com.recipe.gpt.app.web.response.ListResponse;
 import com.recipe.gpt.common.config.security.context.LoginMember;
