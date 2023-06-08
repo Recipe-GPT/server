@@ -9,11 +9,6 @@ spring:
       username: ${recipe.gpt.spring.datasource.username}
       password: ${recipe.gpt.spring.datasource.password}
 
-  redis:
-    host: ${recipe.gpt.spring.redis.host}
-    port: ${recipe.gpt.spring.redis.port}
-    database: ${recipe.gpt.spring.redis.database}
-
   security:
     oauth2:
       client:
@@ -29,6 +24,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+  data:
+    redis:
+      host: ${recipe.gpt.spring.data.redis.host}
+      port: ${recipe.gpt.spring.data.redis.port}
+      database: ${recipe.gpt.spring.data.redis.database}
 
 springdoc:
   swagger-ui:
