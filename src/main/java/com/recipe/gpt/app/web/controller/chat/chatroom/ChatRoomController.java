@@ -2,6 +2,7 @@ package com.recipe.gpt.app.web.controller.chat.chatroom;
 
 import com.recipe.gpt.app.domain.chat.chatroom.ChatRoomService;
 import com.recipe.gpt.app.web.dto.chat.ChatResponseDto;
+import com.recipe.gpt.app.web.dto.chat.chatroom.ChatRoomIdResponseDto;
 import com.recipe.gpt.app.web.dto.chat.chatroom.ChatRoomRequestDto;
 import com.recipe.gpt.app.web.dto.chat.chatroom.ChatRoomResponseDto;
 import com.recipe.gpt.app.web.path.ApiPath;
@@ -10,7 +11,6 @@ import com.recipe.gpt.common.config.security.context.LoginMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,10 +31,9 @@ public class ChatRoomController {
 
     @Operation(summary = "채팅방 생성")
     @PostMapping(ApiPath.CHATROOM_CREATE)
-    public ResponseEntity<Void> createChatRoom(
+    public ResponseEntity<ChatRoomIdResponseDto> createChatRoom(
         @AuthenticationPrincipal LoginMember loginMember) {
-        Long chatRoomId = chatRoomService.create(loginMember);
-        return ResponseEntity.created(URI.create(ApiPath.CHATROOM_CREATE + '/' + chatRoomId)).build();
+        return ResponseEntity.ok(chatRoomService.create(loginMember));
     }
 
     @Operation(summary = "내 채팅방 조회")

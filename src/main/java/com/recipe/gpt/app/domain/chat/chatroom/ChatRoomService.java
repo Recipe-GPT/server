@@ -3,6 +3,7 @@ package com.recipe.gpt.app.domain.chat.chatroom;
 import com.recipe.gpt.app.domain.member.Member;
 import com.recipe.gpt.app.domain.member.MemberService;
 import com.recipe.gpt.app.web.dto.chat.ChatResponseDto;
+import com.recipe.gpt.app.web.dto.chat.chatroom.ChatRoomIdResponseDto;
 import com.recipe.gpt.app.web.dto.chat.chatroom.ChatRoomRequestDto;
 import com.recipe.gpt.app.web.dto.chat.chatroom.ChatRoomResponseDto;
 import com.recipe.gpt.app.web.response.ListResponse;
@@ -26,7 +27,7 @@ public class ChatRoomService {
      * 채팅방 생성
      */
     @Transactional
-    public Long create(LoginMember loginMember) {
+    public ChatRoomIdResponseDto create(LoginMember loginMember) {
         Member member = memberService.findLoginMember(loginMember);
 
         ChatRoom newChatRoom = ChatRoom.builder()
@@ -35,7 +36,7 @@ public class ChatRoomService {
             .build();
 
         ChatRoom chatRoom = chatRoomRepository.save(newChatRoom);
-        return chatRoom.getId();
+        return ChatRoomIdResponseDto.of(chatRoom.getId());
     }
 
     /**
