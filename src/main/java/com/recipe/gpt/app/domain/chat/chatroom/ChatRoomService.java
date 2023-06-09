@@ -26,10 +26,15 @@ public class ChatRoomService {
      * 채팅방 생성
      */
     @Transactional
-    public Long create(LoginMember loginMember, ChatRoomRequestDto body) {
+    public Long create(LoginMember loginMember) {
         Member member = memberService.findLoginMember(loginMember);
 
-        ChatRoom chatRoom = chatRoomRepository.save(body.toChatRoom(member));
+        ChatRoom newChatRoom = ChatRoom.builder()
+            .member(member)
+            .name("New Recipe")
+            .build();
+
+        ChatRoom chatRoom = chatRoomRepository.save(newChatRoom);
         return chatRoom.getId();
     }
 
