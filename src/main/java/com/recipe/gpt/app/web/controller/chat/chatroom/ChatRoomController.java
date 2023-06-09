@@ -32,10 +32,9 @@ public class ChatRoomController {
     @Operation(summary = "채팅방 생성")
     @PostMapping(ApiPath.CHATROOM_CREATE)
     public ResponseEntity<Void> createChatRoom(
-        @AuthenticationPrincipal LoginMember loginMember,
-        @Valid @RequestBody ChatRoomRequestDto body) {
-        Long chatRoomId = chatRoomService.create(loginMember, body);
-        return ResponseEntity.created(URI.create(ApiPath.CHATROOM_CREATE + chatRoomId)).build();
+        @AuthenticationPrincipal LoginMember loginMember) {
+        Long chatRoomId = chatRoomService.create(loginMember);
+        return ResponseEntity.created(URI.create(ApiPath.CHATROOM_CREATE + '/' + chatRoomId)).build();
     }
 
     @Operation(summary = "내 채팅방 조회")
