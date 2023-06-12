@@ -3,6 +3,7 @@ package com.recipe.gpt.app.domain.board;
 import com.recipe.gpt.app.domain.BaseTimeEntity;
 import com.recipe.gpt.app.domain.member.Member;
 import com.recipe.gpt.app.domain.recipe.Recipe;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -45,7 +46,7 @@ public class Board extends BaseTimeEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
@@ -66,6 +67,22 @@ public class Board extends BaseTimeEntity {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public boolean isAccessibleToBoard(Member member) {
+        if (member == null) {
+            return false;
+        }
+
+        Long loginMemberId = member.getId();
+        Long memberId = this.member.getId();
+        return memberId.equals(loginMemberId);
+    }
+
+    public void update(Board requestBoard) {
+        this.serving = requestBoard.serving;
+        this.time = requestBoard.time;
+        this.difficulty = requestBoard.difficulty;
     }
 
 }
