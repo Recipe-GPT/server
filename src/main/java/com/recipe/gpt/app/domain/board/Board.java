@@ -16,6 +16,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -47,5 +48,24 @@ public class Board extends BaseTimeEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
+
+    @Builder
+    private Board(Member member,
+        Long serving,
+        Long time,
+        Difficulty difficulty,
+        String imageUrl,
+        Recipe recipe) {
+        this.member = member;
+        this.serving = serving;
+        this.time = time;
+        this.difficulty = difficulty;
+        this.imageUrl = imageUrl;
+        this.recipe = recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
 
 }

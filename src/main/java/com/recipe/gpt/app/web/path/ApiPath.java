@@ -26,6 +26,9 @@ public class ApiPath {
     public static final String CHATROOM_UPDATE = "/api/v1/chatroom/update/{id}";
     public static final String CHATROOM_CHAT_LIST = "/api/v1/chatroom/find/{id}";
 
+    // 커뮤니티
+    public static final String BOARD_UPLOAD = "/api/v1/board";
+    public static final String BOARD_UPDATE = "/api/v1/board/update/{id}";
     // 에러 핸들러
     public static final String ERROR_AUTH = "/api/v1/error";
 
