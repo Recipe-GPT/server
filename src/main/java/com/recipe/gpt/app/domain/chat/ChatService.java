@@ -76,7 +76,7 @@ public class ChatService {
 
         // [3] 레시피 저장
         Chat latestChat = findLatestChatByChatRoomId(chatRoom);
-        recipeService.saveByAiServerResponse(body, response, latestChat);
+        recipeService.createByAiServerResponse(body, response, latestChat);
 
         return response;
     }
