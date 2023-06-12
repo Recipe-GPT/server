@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class BoardUploadRequestDto {
+public class BoardRequestDto {
 
     @ValidEnum(enumClass = Difficulty.class)
     private Difficulty difficulty;
