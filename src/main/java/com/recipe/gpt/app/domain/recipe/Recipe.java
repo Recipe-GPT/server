@@ -15,7 +15,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,10 +39,6 @@ public class Recipe {
     @JoinColumn(name = "chat_id")
     private Chat chat;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
-    private Board board;
-
     @Embedded
     private Ingredient ingredient = Ingredient.empty();
 
@@ -65,7 +60,7 @@ public class Recipe {
     }
 
     public void setBoard(Board board) {
-        this.board = board;
         board.setRecipe(this);
     }
+
 }

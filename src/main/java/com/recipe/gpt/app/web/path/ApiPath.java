@@ -29,6 +29,8 @@ public class ApiPath {
     // 커뮤니티
     public static final String BOARD_UPLOAD = "/api/v1/board";
     public static final String BOARD_UPDATE = "/api/v1/board/update/{id}";
+    public static final String BOARD_DELETE = "/api/v1/board/delete/{id}";
+
     // 에러 핸들러
     public static final String ERROR_AUTH = "/api/v1/error";
 
