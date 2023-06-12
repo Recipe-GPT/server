@@ -1,5 +1,6 @@
 package com.recipe.gpt.app.domain.recipe;
 
+import com.recipe.gpt.app.domain.board.Board;
 import com.recipe.gpt.app.domain.chat.Chat;
 import com.recipe.gpt.app.domain.recipe.ingredient.Ingredient;
 import com.recipe.gpt.app.domain.recipe.procedure.Procedure;
@@ -14,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +40,10 @@ public class Recipe {
     @JoinColumn(name = "chat_id")
     private Chat chat;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
+
     @Embedded
     private Ingredient ingredient = Ingredient.empty();
 
@@ -58,4 +64,8 @@ public class Recipe {
         chat.addRecipe(this);
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+        board.setRecipe(this);
+    }
 }
