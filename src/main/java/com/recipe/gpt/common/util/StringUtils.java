@@ -2,7 +2,10 @@ package com.recipe.gpt.common.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StringUtils {
 
     private static final Pattern PATTERN_IN_PARENTHESES = Pattern.compile("\\((.*?)\\)");
