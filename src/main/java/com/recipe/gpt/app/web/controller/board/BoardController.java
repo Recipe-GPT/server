@@ -1,9 +1,13 @@
 package com.recipe.gpt.app.web.controller.board;
 
 import com.recipe.gpt.app.domain.board.BoardService;
+import com.recipe.gpt.app.web.dto.board.BoardDetailResponseDto;
 import com.recipe.gpt.app.web.dto.board.BoardIdResponseDto;
 import com.recipe.gpt.app.web.dto.board.BoardRequestDto;
+import com.recipe.gpt.app.web.dto.board.BoardResponseDto;
+import com.recipe.gpt.app.web.dto.board.search.SearchBoardRequestDto;
 import com.recipe.gpt.app.web.path.ApiPath;
+import com.recipe.gpt.app.web.response.PagedResponse;
 import com.recipe.gpt.common.config.security.context.LoginMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,9 +16,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,6 +63,48 @@ public class BoardController {
     ) {
         boardService.deleteBoard(loginMember, id);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "핉터 검색")
+    @PostMapping(ApiPath.BOARD_VIEW_FILTER)
+    public ResponseEntity<PagedResponse<BoardResponseDto>> findBoardsBySearch(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @Valid @RequestBody SearchBoardRequestDto body
+    ) {
+        return ResponseEntity.ok(boardService.findBoardsBySearch(
+            loginMember,
+            body.getPagination(),
+            body.getFilter()
+        ));
+    }
+
+    @Operation(summary = "레시피 게시글 추천 조회")
+    @GetMapping(ApiPath.BOARD_VIEW_RECOMMEND)
+    public ResponseEntity<PagedResponse<BoardResponseDto>> findRecommendedBoards(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @RequestParam(value = "page", required = false) Integer page,
+        @RequestParam(value = "size", required = false) Integer size
+    ) {
+        return ResponseEntity.ok(boardService.findRecommendedBoards(loginMember, page, size));
+    }
+
+    @Operation(summary = "최근 떠오르는 레시피 게시글 조회")
+    @GetMapping(ApiPath.BOARD_VIEW_TRENDING)
+    public ResponseEntity<PagedResponse<BoardResponseDto>> findTrendBoards(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @RequestParam(value = "page", required = false) Integer page,
+        @RequestParam(value = "size", required = false) Integer size
+    ) {
+        return ResponseEntity.ok(boardService.findTrendBoards(loginMember, page, size));
+    }
+
+    @Operation(summary = "레시피 게시글 상세 조회")
+    @GetMapping(ApiPath.BOARD_VIEW_DETAIL)
+    public ResponseEntity<BoardDetailResponseDto> findBoardDetail(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(boardService.findBoardDetail(loginMember, id));
     }
 
 }
