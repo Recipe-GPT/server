@@ -2,16 +2,15 @@ package com.recipe.gpt.common.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public class StringUtils {
 
-    private static final Pattern PATTERN_IN_PARENTHESES = Pattern.compile("\\((.*?)\\)");
+    private final Pattern PATTERN_IN_PARENTHESES = Pattern.compile("\\((.*?)\\)");
 
     // 괄호 안의 문자열 추출
-    public static String extractStringInsideParentheses(String value) {
+    public String extractStringInsideParentheses(String value) {
         Matcher matcher = PATTERN_IN_PARENTHESES.matcher(value);
         if (matcher.find()) {
             return matcher.group(1);
@@ -20,7 +19,7 @@ public class StringUtils {
     }
 
     // 괄호 밖의 문자열 추출
-    public static String extractStringOutsideParentheses(String value) {
+    public String extractStringOutsideParentheses(String value) {
         int index = value.indexOf('(');
         if (index == -1) {
             return value;
