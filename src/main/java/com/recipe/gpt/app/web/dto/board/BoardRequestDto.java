@@ -34,6 +34,7 @@ public class BoardRequestDto {
             .time(time)
             .difficulty(difficulty)
             .imageUrl("example")
+            .views(0L)
             .build();
     }
 
