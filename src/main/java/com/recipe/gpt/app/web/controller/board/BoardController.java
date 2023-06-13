@@ -9,6 +9,7 @@ import com.recipe.gpt.app.web.dto.board.search.SearchBoardRequestDto;
 import com.recipe.gpt.app.web.path.ApiPath;
 import com.recipe.gpt.app.web.response.PagedResponse;
 import com.recipe.gpt.common.config.security.context.LoginMember;
+import com.recipe.gpt.common.util.FileValidateUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -40,7 +41,8 @@ public class BoardController {
         @RequestPart(value = "image") MultipartFile image,
         @Valid @RequestPart(value = "rq") BoardRequestDto body
     ) {
-        return ResponseEntity.ok(boardService.create(loginMember, body));
+        FileValidateUtils.imageValidationCheck(image);
+        return ResponseEntity.ok(boardService.create(loginMember, image, body));
     }
 
     @Operation(summary = "레시피 게시글 수정")
@@ -51,7 +53,8 @@ public class BoardController {
         @RequestPart(value = "image") MultipartFile image,
         @Valid @RequestPart(value = "rq") BoardRequestDto body
     ) {
-        boardService.updateBoard(loginMember, id, body);
+        FileValidateUtils.imageValidationCheck(image);
+        boardService.updateBoard(loginMember, id, image, body);
         return ResponseEntity.ok().build();
     }
 
