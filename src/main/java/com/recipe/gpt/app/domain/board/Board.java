@@ -42,6 +42,9 @@ public class Board extends BaseTimeEntity {
     @Lob
     private String imageUrl;
 
+    @Column(nullable = false)
+    private Long views;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
@@ -54,11 +57,13 @@ public class Board extends BaseTimeEntity {
     private Board(Member member,
         Long serving,
         Long time,
+        Long views,
         Difficulty difficulty,
         String imageUrl,
         Recipe recipe) {
         this.member = member;
         this.serving = serving;
+        this.views = views;
         this.time = time;
         this.difficulty = difficulty;
         this.imageUrl = imageUrl;
@@ -83,6 +88,10 @@ public class Board extends BaseTimeEntity {
         this.serving = requestBoard.serving;
         this.time = requestBoard.time;
         this.difficulty = requestBoard.difficulty;
+    }
+
+    public void updateViews() {
+        this.views++;
     }
 
 }
