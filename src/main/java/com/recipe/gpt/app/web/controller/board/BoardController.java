@@ -35,7 +35,10 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @Operation(summary = "레시피 게시글 업로드")
+    @Operation(
+        summary = "레시피 게시글 업로드",
+        description = "difficulty: VERY_EASY | EASY | MEDIUM | HARD | VERY_HARD"
+    )
     @PostMapping(value = ApiPath.BOARD_UPLOAD)
     public ResponseEntity<BoardIdResponseDto> uploadBoard(
         @AuthenticationPrincipal LoginMember loginMember,
