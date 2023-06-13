@@ -54,7 +54,7 @@ public class ChatService {
         // [3] 채팅 저장
         save(member, chatRoom, body, responseList);
 
-        return ListResponse.create(responseList);
+        return ListResponse.of(responseList);
     }
 
     /**
