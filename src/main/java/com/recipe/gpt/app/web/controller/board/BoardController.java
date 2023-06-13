@@ -7,6 +7,7 @@ import com.recipe.gpt.app.web.dto.board.BoardRequestDto;
 import com.recipe.gpt.app.web.dto.board.BoardResponseDto;
 import com.recipe.gpt.app.web.dto.board.search.SearchBoardRequestDto;
 import com.recipe.gpt.app.web.path.ApiPath;
+import com.recipe.gpt.app.web.response.ListResponse;
 import com.recipe.gpt.app.web.response.PagedResponse;
 import com.recipe.gpt.common.config.security.context.LoginMember;
 import com.recipe.gpt.common.util.FileValidateUtils;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,22 +84,18 @@ public class BoardController {
 
     @Operation(summary = "레시피 게시글 추천 조회")
     @GetMapping(ApiPath.BOARD_VIEW_RECOMMEND)
-    public ResponseEntity<PagedResponse<BoardResponseDto>> findRecommendedBoards(
-        @AuthenticationPrincipal LoginMember loginMember,
-        @RequestParam(value = "page", required = false) Integer page,
-        @RequestParam(value = "size", required = false) Integer size
+    public ResponseEntity<ListResponse<BoardResponseDto>> findRecommendedBoards(
+        @AuthenticationPrincipal LoginMember loginMember
     ) {
-        return ResponseEntity.ok(boardService.findRecommendedBoards(loginMember, page, size));
+        return ResponseEntity.ok(boardService.findRecommendedBoards(loginMember));
     }
 
     @Operation(summary = "최근 떠오르는 레시피 게시글 조회")
     @GetMapping(ApiPath.BOARD_VIEW_TRENDING)
-    public ResponseEntity<PagedResponse<BoardResponseDto>> findTrendBoards(
-        @AuthenticationPrincipal LoginMember loginMember,
-        @RequestParam(value = "page", required = false) Integer page,
-        @RequestParam(value = "size", required = false) Integer size
+    public ResponseEntity<ListResponse<BoardResponseDto>> findTrendBoards(
+        @AuthenticationPrincipal LoginMember loginMember
     ) {
-        return ResponseEntity.ok(boardService.findTrendBoards(loginMember, page, size));
+        return ResponseEntity.ok(boardService.findTrendBoards(loginMember));
     }
 
     @Operation(summary = "레시피 게시글 상세 조회")

@@ -1,6 +1,7 @@
 package com.recipe.gpt.app.domain.board;
 
 import com.recipe.gpt.app.web.dto.board.search.SearchBoardFilterRequestDto;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -8,7 +9,7 @@ public interface BoardRepositoryCustom {
 
     Page<Board> findBoardListBySearch(SearchBoardFilterRequestDto filter, Pageable pageable);
 
-    Page<Board> findTrendBoardList(Pageable pageable);
+    List<Board> findTrendBoardList();
 
-    Page<Board> findRecommendedBoardList(Pageable pageable);
+    List<Board> findRecommendedBoardList();
 }

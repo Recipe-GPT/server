@@ -43,37 +43,24 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public Page<Board> findTrendBoardList(Pageable pageable) {
+    public List<Board> findTrendBoardList() {
         LocalDateTime oneWeekAgo = LocalDateTime.now().minusWeeks(1);
 
-        List<Board> contents = jpaQueryFactory
+        return jpaQueryFactory
             .selectFrom(board)
             .where(board.createDate.after(oneWeekAgo)) // 최근 1주 동안
-            .offset(pageable.getOffset())
-            .limit(pageable.getPageSize())
             .orderBy(getOrderBy(BoardSortType.POPULAR))
             .fetch();
-
-        JPAQuery<Board> countQuery = jpaQueryFactory
-            .selectFrom(board)
-            .where(board.createDate.after(oneWeekAgo));
-
-        return PageableExecutionUtils.getPage(contents, pageable, () -> countQuery.fetch().size());
     }
 
     @Override
-    public Page<Board> findRecommendedBoardList(Pageable pageable) {
+    public List<Board> findRecommendedBoardList() {
         List<Board> shuffledContents = jpaQueryFactory
             .selectFrom(board)
             .fetch();
 
-        Collections.shuffle(shuffledContents); // 랜덤
-
-        int fromIndex = pageable.getPageNumber() * pageable.getPageSize();
-        int toIndex = Math.min(fromIndex + pageable.getPageSize(), shuffledContents.size());
-        List<Board> contents = shuffledContents.subList(fromIndex, toIndex);
-
-        return PageableExecutionUtils.getPage(contents, pageable, shuffledContents::size);
+        Collections.shuffle(shuffledContents);
+        return shuffledContents;
     }
 
     private OrderSpecifier<?>[] getOrderBy(BoardSortType sortType) {

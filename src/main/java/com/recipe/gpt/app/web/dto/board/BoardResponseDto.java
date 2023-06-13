@@ -6,6 +6,7 @@ import com.recipe.gpt.app.web.response.PagedResponse;
 import com.recipe.gpt.app.web.response.Pagination;
 import com.recipe.gpt.common.util.DateUtils;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,6 +45,12 @@ public class BoardResponseDto {
             board.isAccessibleToBoard(member),
             board.getViews()
         );
+    }
+
+    public static List<BoardResponseDto> listOf(List<Board> boards, Member member) {
+        return boards.stream()
+            .map(board -> BoardResponseDto.of(board, member))
+            .collect(Collectors.toList());
     }
 
     public static PagedResponse<BoardResponseDto> pagedListOf(Pagination pagination,

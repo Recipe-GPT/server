@@ -9,11 +9,13 @@ import com.recipe.gpt.app.web.dto.board.BoardRequestDto;
 import com.recipe.gpt.app.web.dto.board.BoardResponseDto;
 import com.recipe.gpt.app.web.dto.board.PaginationRequestDto;
 import com.recipe.gpt.app.web.dto.board.search.SearchBoardFilterRequestDto;
+import com.recipe.gpt.app.web.response.ListResponse;
 import com.recipe.gpt.app.web.response.PagedResponse;
 import com.recipe.gpt.app.web.response.Pagination;
 import com.recipe.gpt.common.config.security.context.LoginMember;
 import com.recipe.gpt.common.exception.BoardNotFoundException;
 import com.recipe.gpt.common.exception.NotPossibleToAccessBoardException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,7 +39,8 @@ public class BoardService {
      * 게시글 등록
      */
     @Transactional
-    public BoardIdResponseDto create(LoginMember loginMember, MultipartFile image, BoardRequestDto body) {
+    public BoardIdResponseDto create(LoginMember loginMember, MultipartFile image,
+        BoardRequestDto body) {
         Member member = memberService.findLoginMember(loginMember);
 
         String saveFileName = s3UploadService.upload(image);
@@ -52,7 +55,8 @@ public class BoardService {
     /**
      * 게시글 업데이트
      */
-    public void updateBoard(LoginMember loginMember, Long id, MultipartFile image, BoardRequestDto body) {
+    public void updateBoard(LoginMember loginMember, Long id, MultipartFile image,
+        BoardRequestDto body) {
         Member member = memberService.findLoginMember(loginMember);
         Board board = findById(id);
 
@@ -103,30 +107,26 @@ public class BoardService {
     /**
      * 레시피 게시글 추천 조회
      */
-    public PagedResponse<BoardResponseDto> findRecommendedBoards(LoginMember loginMember,
-        Integer page, Integer size) {
+    public ListResponse<BoardResponseDto> findRecommendedBoards(LoginMember loginMember) {
         Member member = memberService.findLoginMember(loginMember);
 
-        Pagination pagination = Pagination.create(page, size);
-        PageRequest pageRequest = pagination.toPageRequest();
-
-        Page<Board> recommendBoardList = boardRepository.findRecommendedBoardList(pageRequest);
-        return BoardResponseDto.pagedListOf(pagination, recommendBoardList, member);
+        List<Board> recommendBoardList = boardRepository.findRecommendedBoardList();
+        List<BoardResponseDto> boardResponseDtoList =
+            BoardResponseDto.listOf(recommendBoardList, member);
+        return ListResponse.of(boardResponseDtoList);
     }
 
     /**
      * 최근 떠오르는 레시피 게시글 조회
      */
     @Transactional(readOnly = true)
-    public PagedResponse<BoardResponseDto> findTrendBoards(LoginMember loginMember, Integer page,
-        Integer size) {
+    public ListResponse<BoardResponseDto> findTrendBoards(LoginMember loginMember) {
         Member member = memberService.findLoginMember(loginMember);
 
-        Pagination pagination = Pagination.create(page, size);
-        PageRequest pageRequest = pagination.toPageRequest();
-
-        Page<Board> trendBoardList = boardRepository.findTrendBoardList(pageRequest);
-        return BoardResponseDto.pagedListOf(pagination, trendBoardList, member);
+        List<Board> trendBoardList = boardRepository.findTrendBoardList();
+        List<BoardResponseDto> boardResponseDtoList =
+            BoardResponseDto.listOf(trendBoardList, member);
+        return ListResponse.of(boardResponseDtoList);
     }
 
     /**
