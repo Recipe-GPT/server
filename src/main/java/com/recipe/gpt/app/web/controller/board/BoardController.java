@@ -69,7 +69,7 @@ public class BoardController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "핉터 검색")
+    @Operation(summary = "필터 검색")
     @GetMapping(ApiPath.BOARD_VIEW_FILTER)
     public ResponseEntity<PagedResponse<BoardResponseDto>> findBoardsBySearch(
         @AuthenticationPrincipal LoginMember loginMember,
