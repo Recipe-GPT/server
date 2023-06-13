@@ -14,14 +14,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +36,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @Operation(summary = "레시피 게시글 업로드")
-    @PostMapping(ApiPath.BOARD_UPLOAD)
+    @PostMapping(value = ApiPath.BOARD_UPLOAD)
     public ResponseEntity<BoardIdResponseDto> uploadBoard(
         @AuthenticationPrincipal LoginMember loginMember,
         @RequestPart(value = "image") MultipartFile image,
@@ -69,10 +70,10 @@ public class BoardController {
     }
 
     @Operation(summary = "핉터 검색")
-    @PostMapping(ApiPath.BOARD_VIEW_FILTER)
+    @GetMapping(ApiPath.BOARD_VIEW_FILTER)
     public ResponseEntity<PagedResponse<BoardResponseDto>> findBoardsBySearch(
         @AuthenticationPrincipal LoginMember loginMember,
-        @Valid @RequestBody SearchBoardRequestDto body
+        @Valid @ParameterObject @ModelAttribute SearchBoardRequestDto body
     ) {
         return ResponseEntity.ok(boardService.findBoardsBySearch(
             loginMember,

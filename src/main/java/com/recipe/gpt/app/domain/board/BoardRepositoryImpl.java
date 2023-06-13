@@ -5,6 +5,7 @@ import static com.recipe.gpt.app.domain.board.QBoard.board;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.recipe.gpt.app.web.dto.board.search.SearchBoardFilterRequestDto;
@@ -98,6 +99,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     private BooleanExpression searchEq(String search) {
+        if (search == null) {
+            return Expressions.TRUE;
+        }
         return board.recipe.name.contains(search);
     }
 
