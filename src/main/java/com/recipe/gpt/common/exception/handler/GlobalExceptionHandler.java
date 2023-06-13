@@ -10,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -77,6 +78,19 @@ public class GlobalExceptionHandler {
     private String extractErrorMessageFromResponseBody(String responseBody) {
         Map<String, Object> responseMap = JsonUtils.readValue(responseBody, Map.class);
         return responseMap.get("message").toString();
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    protected ResponseEntity<ErrorResponse> handleMaxUploadSizeExceededException(
+        MaxUploadSizeExceededException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .reason(e.getMessage())
+            .message("파일 크기가 32MB 용량을 초과했습니다.")
+            .build();
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 }
