@@ -27,13 +27,13 @@ public class BoardRequestDto {
     private RecipeRequestDto recipe;
 
     // TODO::이미지 URL
-    public Board toBoard(Member member) {
+    public Board toBoard(Member member, String imageUrl) {
         return Board.builder()
             .member(member)
             .serving(serving)
             .time(time)
             .difficulty(difficulty)
-            .imageUrl("example")
+            .imageUrl(imageUrl)
             .views(0L)
             .build();
     }

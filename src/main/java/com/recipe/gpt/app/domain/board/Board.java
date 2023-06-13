@@ -88,6 +88,7 @@ public class Board extends BaseTimeEntity {
         this.serving = requestBoard.serving;
         this.time = requestBoard.time;
         this.difficulty = requestBoard.difficulty;
+        this.imageUrl = requestBoard.imageUrl;
     }
 
     public void updateViews() {

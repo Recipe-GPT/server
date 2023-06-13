@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -28,16 +29,20 @@ public class BoardService {
 
     private final RecipeService recipeService;
 
+    private final AmazonS3Service s3UploadService;
+
     private final BoardRepository boardRepository;
 
     /**
      * 게시글 등록
      */
     @Transactional
-    public BoardIdResponseDto create(LoginMember loginMember, BoardRequestDto body) {
+    public BoardIdResponseDto create(LoginMember loginMember, MultipartFile image, BoardRequestDto body) {
         Member member = memberService.findLoginMember(loginMember);
 
-        Board newBoard = body.toBoard(member);
+        String saveFileName = s3UploadService.upload(image);
+
+        Board newBoard = body.toBoard(member, saveFileName);
         Board board = boardRepository.save(newBoard);
 
         recipeService.create(body.getRecipe(), newBoard);
@@ -47,7 +52,7 @@ public class BoardService {
     /**
      * 게시글 업데이트
      */
-    public void updateBoard(LoginMember loginMember, Long id, BoardRequestDto body) {
+    public void updateBoard(LoginMember loginMember, Long id, MultipartFile image, BoardRequestDto body) {
         Member member = memberService.findLoginMember(loginMember);
         Board board = findById(id);
 
@@ -55,7 +60,9 @@ public class BoardService {
             throw new NotPossibleToAccessBoardException();
         }
 
-        Board requestBoard = body.toBoard(member);
+        String saveFileName = s3UploadService.upload(image);
+
+        Board requestBoard = body.toBoard(member, saveFileName);
         board.update(requestBoard);
 
         recipeService.create(body.getRecipe(), board);
@@ -76,7 +83,7 @@ public class BoardService {
     }
 
     /**
-     * 게시글 필터
+     * 게시글 필터 조회
      */
     @Transactional(readOnly = true)
     public PagedResponse<BoardResponseDto> findBoardsBySearch(LoginMember loginMember,
