@@ -17,7 +17,7 @@ public class SeasoningDataService {
     @Transactional(readOnly = true)
     public ListResponse<SeasoningDataResponseDto> searchSeasoning(String query) {
         List<SeasoningData> seasoningList = seasoningDataRepository.findByNameContains(query);
-        return ListResponse.create(
+        return ListResponse.of(
                 SeasoningDataResponseDto.listOf(seasoningList)
         );
     }
