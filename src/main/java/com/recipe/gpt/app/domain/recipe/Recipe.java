@@ -35,6 +35,7 @@ public class Recipe {
     @Lob
     private String description;
 
+    @Column(nullable = false)
     private Boolean isSelected;
 
     @ManyToOne(fetch = FetchType.LAZY)
