@@ -26,7 +26,15 @@ public class ApiPath {
     public static final String CHATROOM_UPDATE = "/api/v1/chatroom/update/{id}";
     public static final String CHATROOM_CHAT_LIST = "/api/v1/chatroom/find/{id}";
 
+    // 커뮤니티
+    public static final String BOARD_UPLOAD = "/api/v1/board";
+    public static final String BOARD_UPDATE = "/api/v1/board/update/{id}";
+    public static final String BOARD_DELETE = "/api/v1/board/delete/{id}";
+    public static final String BOARD_VIEW_DETAIL = "/api/v1/board/detail/{id}";
+    public static final String BOARD_VIEW_RECOMMEND = "/api/v1/board/recommend";
+    public static final String BOARD_VIEW_FILTER = "/api/v1/board/filter";
+    public static final String BOARD_VIEW_TRENDING = "/api/v1/board/trending";
+
     // 에러 핸들러
     public static final String ERROR_AUTH = "/api/v1/error";
-
 }

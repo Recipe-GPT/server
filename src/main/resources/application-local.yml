@@ -31,9 +31,31 @@ spring:
       port: ${recipe.gpt.spring.data.redis.port}
       database: ${recipe.gpt.spring.data.redis.database}
 
+  servlet:
+    multipart:
+      max-file-size: 32MB
+
 springdoc:
   swagger-ui:
     path: "/swagger-ui.html"
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${recipe.gpt.aws.credentials.access-key}
+      secret-key: ${recipe.gpt.aws.credentials.secret-key}
+    s3:
+      bucket: ${recipe.gpt.aws.s3.bucket}
+    region:
+      static:
+        ap-northeast-2
+    stack:
+      auto:
+        false
+
+recipe-gpt:
+  cloudFront:
+    distributionDomain: ${recipe.gpt.cloudFront.distributionDomain}
 
 api:
   x-api-key: ${recipe.gpt.api.x-api-key}

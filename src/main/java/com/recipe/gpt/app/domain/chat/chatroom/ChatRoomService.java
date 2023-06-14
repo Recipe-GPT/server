@@ -65,7 +65,7 @@ public class ChatRoomService {
         List<ChatRoom> myChatRoomList = chatRoomRepository.findChatRoomsByMember(member);
         List<ChatRoomResponseDto> chatRoomResponseDtoList = ChatRoomResponseDto.listOf(
             myChatRoomList);
-        return ListResponse.create(chatRoomResponseDtoList);
+        return ListResponse.of(chatRoomResponseDtoList);
     }
 
     /**
@@ -97,7 +97,7 @@ public class ChatRoomService {
 
         List<ChatResponseDto> chatResponseDtoList = ChatResponseDto.listOf(chatRoom.getChatList());
 
-        return ListResponse.create(chatResponseDtoList);
+        return ListResponse.of(chatResponseDtoList);
     }
 
     @Transactional(readOnly = true)

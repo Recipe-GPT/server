@@ -1,18 +1,27 @@
 package com.recipe.gpt.common.util;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class DateUtils {
 
-    public static Date now() {
+    public Date now() {
         return new Date();
     }
 
-    public static Date addTime(Date date, Long second) {
+    public Date addTime(Date date, Long second) {
         return new Date(date.getTime() + second);
+    }
+
+    public String formatToHyphenSeparatedDate(LocalDateTime createdDate) {
+        return createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
+    public String formatToDotSeparatedDate(LocalDateTime createdDate) {
+        return createdDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
     }
 
 }

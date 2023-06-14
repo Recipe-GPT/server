@@ -36,8 +36,8 @@ dependencies {
     // querydsl
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
-    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
@@ -50,16 +50,19 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 
     // configuration
-    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     // redis
-    implementation "org.springframework.boot:spring-boot-starter-data-redis"
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     // oauth2
     implementation 'org.springframework.security:spring-security-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+    // aws
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {

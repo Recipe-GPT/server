@@ -54,7 +54,7 @@ public class ChatService {
         // [3] 채팅 저장
         save(member, chatRoom, body, responseList);
 
-        return ListResponse.create(responseList);
+        return ListResponse.of(responseList);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ChatService {
 
         // [3] 레시피 저장
         Chat latestChat = findLatestChatByChatRoomId(chatRoom);
-        recipeService.saveByAiServerResponse(body, response, latestChat);
+        recipeService.createByAiServerResponse(body, response, latestChat);
 
         return response;
     }

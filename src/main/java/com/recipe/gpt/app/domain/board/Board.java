@@ -3,6 +3,7 @@ package com.recipe.gpt.app.domain.board;
 import com.recipe.gpt.app.domain.BaseTimeEntity;
 import com.recipe.gpt.app.domain.member.Member;
 import com.recipe.gpt.app.domain.recipe.Recipe;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,6 +17,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,12 +42,57 @@ public class Board extends BaseTimeEntity {
     @Lob
     private String imageUrl;
 
+    @Column(nullable = false)
+    private Long views;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
+
+    @Builder
+    private Board(Member member,
+        Long serving,
+        Long time,
+        Long views,
+        Difficulty difficulty,
+        String imageUrl,
+        Recipe recipe) {
+        this.member = member;
+        this.serving = serving;
+        this.views = views;
+        this.time = time;
+        this.difficulty = difficulty;
+        this.imageUrl = imageUrl;
+        this.recipe = recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    public boolean isAccessibleToBoard(Member member) {
+        if (member == null) {
+            return false;
+        }
+
+        Long loginMemberId = member.getId();
+        Long memberId = this.member.getId();
+        return memberId.equals(loginMemberId);
+    }
+
+    public void update(Board requestBoard) {
+        this.serving = requestBoard.serving;
+        this.time = requestBoard.time;
+        this.difficulty = requestBoard.difficulty;
+        this.imageUrl = requestBoard.imageUrl;
+    }
+
+    public void updateViews() {
+        this.views++;
+    }
 
 }

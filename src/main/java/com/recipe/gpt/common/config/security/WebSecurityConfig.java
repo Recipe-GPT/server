@@ -54,6 +54,12 @@ public class WebSecurityConfig {
             .requestMatchers(ApiPath.ERROR_AUTH).permitAll()
             // 식재료, 양념 검색
             .requestMatchers(ApiPath.SEARCH_INGREDIENT, ApiPath.SEARCH_SEASONING).permitAll()
+            // 커뮤니티 조회
+            .requestMatchers(
+                ApiPath.BOARD_VIEW_RECOMMEND,
+                ApiPath.BOARD_VIEW_TRENDING,
+                ApiPath.BOARD_VIEW_FILTER,
+                ApiPath.BOARD_VIEW_DETAIL).permitAll()
             .anyRequest().authenticated()
         );
         http.addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter.class)

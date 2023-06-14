@@ -1,5 +1,6 @@
 package com.recipe.gpt.app.domain.recipe;
 
+import com.recipe.gpt.app.domain.board.Board;
 import com.recipe.gpt.app.domain.chat.Chat;
 import com.recipe.gpt.app.domain.recipe.ingredient.Ingredient;
 import com.recipe.gpt.app.domain.recipe.procedure.Procedure;
@@ -56,6 +57,10 @@ public class Recipe {
     public void setChat(Chat chat) {
         this.chat = chat;
         chat.addRecipe(this);
+    }
+
+    public void setBoard(Board board) {
+        board.setRecipe(this);
     }
 
 }
