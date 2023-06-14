@@ -35,6 +35,8 @@ public class Recipe {
     @Lob
     private String description;
 
+    private Boolean isSelected;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id")
     private Chat chat;
@@ -49,9 +51,10 @@ public class Recipe {
     private Procedure procedure = Procedure.empty();
 
     @Builder
-    private Recipe(String name, String description) {
+    private Recipe(String name, String description, Boolean isSelected) {
         this.name = name;
         this.description = description;
+        this.isSelected = isSelected;
     }
 
     public void setChat(Chat chat) {
