@@ -6,6 +6,7 @@ import com.recipe.gpt.app.domain.recipe.ingredient.IngredientItem;
 import com.recipe.gpt.app.domain.recipe.procedure.ProcedureItem;
 import com.recipe.gpt.app.domain.recipe.seasoning.SeasoningItem;
 import com.recipe.gpt.app.web.dto.ai.AiServerRecipeRequestDto;
+import com.recipe.gpt.app.web.dto.ai.AiServerRecommendResponseDto;
 import com.recipe.gpt.app.web.dto.ai.ExtractedRecipeResponseDto;
 import com.recipe.gpt.app.web.dto.recipe.RecipeRequestDto;
 import java.util.List;
@@ -33,10 +34,23 @@ public class RecipeService {
     }
 
     /**
-     * ai server 응답으로 레시피 생성
+     * ai server | 요리 추천 질문 응답으로 레시피 생성
      */
     @Transactional
-    public void createByAiServerResponse(AiServerRecipeRequestDto body,
+    public void createByRecommendQueryResponse(AiServerRecommendResponseDto body, Chat chat) {
+        Recipe recipe = body.toRecipe();
+        setRecipeIngredients(recipe, body.toIngredientItems());
+        setRecipeSeasonings(recipe, body.toSeasoningItems());
+        setChat(recipe, chat);
+        recipeRepository.save(recipe);
+    }
+
+
+    /**
+     * ai server | 레시피 질문 응답으로 레시피 생성
+     */
+    @Transactional
+    public void createByRecipeQueryResponse(AiServerRecipeRequestDto body,
         ExtractedRecipeResponseDto response, Chat latestChat) {
         Recipe recipe = body.toRecipe();
         setRecipeIngredients(recipe, response.toIngredientItems());

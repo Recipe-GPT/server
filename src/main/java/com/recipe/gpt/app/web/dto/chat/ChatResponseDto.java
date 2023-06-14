@@ -5,7 +5,6 @@ import com.recipe.gpt.app.domain.chat.requested.ingredient.RequestedIngredient;
 import com.recipe.gpt.app.domain.chat.requested.ingredient.RequestedIngredientItem;
 import com.recipe.gpt.app.domain.chat.requested.seasoning.RequestedSeasoning;
 import com.recipe.gpt.app.domain.chat.requested.seasoning.RequestedSeasoningItem;
-import com.recipe.gpt.app.web.dto.chat.recommendrecipe.RecommendRecipeResponseDto;
 import com.recipe.gpt.app.web.dto.recipe.RecipeResponseDto;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,9 +24,9 @@ public class ChatResponseDto {
 
     private List<String> requestedSeasonings;
 
-    private List<RecommendRecipeResponseDto> recommendRecipe;
+    private List<RecipeResponseDto> recommendRecipe;
 
-    private List<RecipeResponseDto> recipes;
+    private List<RecipeResponseDto> selectedRecipe;
 
     public static ChatResponseDto of(Chat chat) {
         List<String> requestIngredients = toRequestedIngredients(chat.getRequestedIngredient());
@@ -37,8 +36,8 @@ public class ChatResponseDto {
             chat.getId(),
             requestIngredients,
             requestSeasonings,
-            RecommendRecipeResponseDto.listOf(chat.getRecommendRecipe()),
-            RecipeResponseDto.listOf(chat.getRecipeList())
+            RecipeResponseDto.unSelectedRecipeListOf(chat.getRecipeList()),
+            RecipeResponseDto.selectedRecipeListOf(chat.getRecipeList())
         );
     }
 

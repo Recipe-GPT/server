@@ -48,16 +48,27 @@ public class RecipeResponseDto {
         );
     }
 
-    public static List<RecipeResponseDto> listOf(List<Recipe> recipeList) {
+    public static List<RecipeResponseDto> selectedRecipeListOf(List<Recipe> recipeList) {
         return recipeList.stream()
+            .filter(Recipe::getIsSelected)
+            .map(RecipeResponseDto::of)
+            .collect(Collectors.toList());
+    }
+
+    public static List<RecipeResponseDto> unSelectedRecipeListOf(List<Recipe> recipeList) {
+        return recipeList.stream()
+            .filter(recipe -> !recipe.getIsSelected())
             .map(RecipeResponseDto::of)
             .collect(Collectors.toList());
     }
 
     public static List<String> toProcedures(Procedure procedure) {
-        return procedure.getProcedureItems().stream()
+        List<String> procedures = procedure.getProcedureItems().stream()
             .map(ProcedureItem::getDescription)
             .collect(Collectors.toList());
+
+        // 선택되지 않은 레시피라면 null 반환
+        return procedures.isEmpty() ? null : procedures;
     }
 
 }

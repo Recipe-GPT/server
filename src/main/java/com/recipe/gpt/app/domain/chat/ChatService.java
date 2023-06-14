@@ -2,7 +2,6 @@ package com.recipe.gpt.app.domain.chat;
 
 import com.recipe.gpt.app.domain.chat.chatroom.ChatRoom;
 import com.recipe.gpt.app.domain.chat.chatroom.ChatRoomService;
-import com.recipe.gpt.app.domain.chat.recommendrecipe.RecommendRecipeItem;
 import com.recipe.gpt.app.domain.chat.requested.ingredient.RequestedIngredientItem;
 import com.recipe.gpt.app.domain.chat.requested.seasoning.RequestedSeasoningItem;
 import com.recipe.gpt.app.domain.member.Member;
@@ -52,7 +51,12 @@ public class ChatService {
         List<AiServerRecommendResponseDto> responseList = chatClient.recommendQuery(body);
 
         // [3] 채팅 저장
-        save(member, chatRoom, body, responseList);
+        Chat chat = save(member, chatRoom, body, responseList);
+
+        // [4] 응답 레시피 모두 저장
+        for (AiServerRecommendResponseDto response: responseList) {
+            recipeService.createByRecommendQueryResponse(response, chat);
+        }
 
         return ListResponse.of(responseList);
     }
@@ -76,13 +80,13 @@ public class ChatService {
 
         // [3] 레시피 저장
         Chat latestChat = findLatestChatByChatRoomId(chatRoom);
-        recipeService.createByAiServerResponse(body, response, latestChat);
+        recipeService.createByRecipeQueryResponse(body, response, latestChat);
 
         return response;
     }
 
     @Transactional
-    public void save(Member member,
+    public Chat save(Member member,
         ChatRoom chatRoom,
         AiServerRecommendRequestDto body,
         List<AiServerRecommendResponseDto> responseList) {
@@ -94,26 +98,19 @@ public class ChatService {
 
         List<RequestedIngredientItem> requestedIngredientItems = body.toRequestedIngredientItems();
         List<RequestedSeasoningItem> requestedSeasoningItems = body.toRequestedSeasoningItems();
-        List<RecommendRecipeItem> recommendRecipeItems = responseList.stream()
-            .map(AiServerRecommendResponseDto::toRecommendRecipeItem)
-            .toList();
 
-        setChat(chat, requestedIngredientItems, requestedSeasoningItems, recommendRecipeItems);
-        chatRepository.save(chat);
+        setChat(chat, requestedIngredientItems, requestedSeasoningItems);
+        return chatRepository.save(chat);
     }
 
     private void setChat(Chat chat,
         List<RequestedIngredientItem> requestedIngredientItems,
-        List<RequestedSeasoningItem> requestedSeasoningItems,
-        List<RecommendRecipeItem> recommendRecipeItems) {
+        List<RequestedSeasoningItem> requestedSeasoningItems) {
         for (RequestedIngredientItem requestedIngredientItem : requestedIngredientItems) {
             requestedIngredientItem.setChat(chat);
         }
         for (RequestedSeasoningItem requestedSeasoningItem : requestedSeasoningItems) {
             requestedSeasoningItem.setChat(chat);
-        }
-        for (RecommendRecipeItem recommendRecipeItem : recommendRecipeItems) {
-            recommendRecipeItem.setChat(chat);
         }
     }
 

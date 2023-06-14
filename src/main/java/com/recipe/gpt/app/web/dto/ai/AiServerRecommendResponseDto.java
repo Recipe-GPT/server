@@ -1,6 +1,9 @@
 package com.recipe.gpt.app.web.dto.ai;
 
-import com.recipe.gpt.app.domain.chat.recommendrecipe.RecommendRecipeItem;
+import com.recipe.gpt.app.domain.recipe.Recipe;
+import com.recipe.gpt.app.domain.recipe.ingredient.IngredientItem;
+import com.recipe.gpt.app.domain.recipe.seasoning.SeasoningItem;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,11 +23,34 @@ public class AiServerRecommendResponseDto {
 
     private List<String> seasonings;
 
-    public RecommendRecipeItem toRecommendRecipeItem() {
-        return RecommendRecipeItem.builder()
+    public Recipe toRecipe() {
+        return Recipe.builder()
             .name(name)
             .description(description)
+            .isSelected(false)
             .build();
+    }
+
+    public List<IngredientItem> toIngredientItems() {
+        List<IngredientItem> ingredientItems = new ArrayList<>();
+        for (String ingredient : ingredients) {
+            IngredientItem item = IngredientItem.builder()
+                .name(ingredient)
+                .build();
+            ingredientItems.add(item);
+        }
+        return ingredientItems;
+    }
+
+    public List<SeasoningItem> toSeasoningItems() {
+        List<SeasoningItem> seasoningItems = new ArrayList<>();
+        for (String seasoning : seasonings) {
+            SeasoningItem item = SeasoningItem.builder()
+                .name(seasoning)
+                .build();
+            seasoningItems.add(item);
+        }
+        return seasoningItems;
     }
 
 }
