@@ -1,7 +1,6 @@
 package com.recipe.gpt.app.domain.chat;
 
 import com.recipe.gpt.app.domain.chat.chatroom.ChatRoom;
-import com.recipe.gpt.app.domain.chat.recommendrecipe.RecommendRecipe;
 import com.recipe.gpt.app.domain.chat.requested.ingredient.RequestedIngredient;
 import com.recipe.gpt.app.domain.chat.requested.seasoning.RequestedSeasoning;
 import com.recipe.gpt.app.domain.member.Member;
@@ -48,9 +47,6 @@ public class Chat {
 
     @Embedded
     private RequestedSeasoning requestedSeasoning = RequestedSeasoning.empty();
-
-    @Embedded
-    private RecommendRecipe recommendRecipe = RecommendRecipe.empty();
 
     @Builder
     private Chat(Member member, ChatRoom chatRoom) {

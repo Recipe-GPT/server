@@ -33,6 +33,7 @@ public class AiServerRecipeRequestDto {
         return Recipe.builder()
             .name(name)
             .description(description)
+            .isSelected(true)
             .build();
     }
 
