@@ -63,9 +63,12 @@ public class RecipeResponseDto {
     }
 
     public static List<String> toProcedures(Procedure procedure) {
-        return procedure.getProcedureItems().stream()
+        List<String> procedures = procedure.getProcedureItems().stream()
             .map(ProcedureItem::getDescription)
             .collect(Collectors.toList());
+
+        // 선택되지 않은 레시피라면 null 반환
+        return procedures.isEmpty() ? null : procedures;
     }
 
 }
