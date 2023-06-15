@@ -1,16 +1,14 @@
 package com.recipe.gpt.common.config.security.jwt;
 
-import static com.recipe.gpt.common.config.security.jwt.JwtProperty.ACCESS_TOKEN_TIME_TO_LIVE;
 import static com.recipe.gpt.common.config.security.jwt.JwtProperty.ID;
 import static com.recipe.gpt.common.config.security.jwt.JwtProperty.JWT_ISSUER;
 import static com.recipe.gpt.common.config.security.jwt.JwtProperty.MEMBER_EMAIL;
-import static com.recipe.gpt.common.config.security.jwt.JwtProperty.REFRESH_TOKEN_TIME_TO_LIVE;
-import static com.recipe.gpt.common.config.security.jwt.JwtProperty.SIGN_KEY;
 
 import com.recipe.gpt.app.domain.member.Member;
 import com.recipe.gpt.app.web.dto.auth.AccessAndRefreshTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.AccessTokenResponseDto;
 import com.recipe.gpt.app.web.dto.auth.RefreshTokenResponseDto;
+import com.recipe.gpt.common.config.properties.JwtProperties;
 import com.recipe.gpt.common.config.redis.RefreshToken;
 import com.recipe.gpt.common.config.redis.RefreshTokenRepository;
 import com.recipe.gpt.common.exception.RefreshTokenNotFoundException;
@@ -32,6 +30,8 @@ public class JwtTokenFactory {
 
     private final RefreshTokenRepository refreshTokenRepository;
 
+    private final JwtProperties properties;
+
     /**
      * 액세스, 리프레시 토큰 발급
      */
@@ -50,7 +50,7 @@ public class JwtTokenFactory {
      */
     public AccessTokenResponseDto generateAccessToken(Member member) {
         Date now = DateUtils.now();
-        Date expiredDate = DateUtils.addTime(now, ACCESS_TOKEN_TIME_TO_LIVE);
+        Date expiredDate = DateUtils.addTime(now, properties.getAccessTokenValidityInSeconds());
         LocalDateTime expiredLocalDateTime = LocalDateTime.ofInstant(expiredDate.toInstant(),
             ZoneId.systemDefault());
 
@@ -59,7 +59,7 @@ public class JwtTokenFactory {
             .setIssuedAt(now)
             .setIssuer(JWT_ISSUER)
             .setExpiration(expiredDate)
-            .signWith(SignatureAlgorithm.HS256, SIGN_KEY)
+            .signWith(SignatureAlgorithm.HS256, properties.getSignKey())
             .compact();
 
         return AccessTokenResponseDto.of(
@@ -73,19 +73,22 @@ public class JwtTokenFactory {
      */
     public RefreshTokenResponseDto generateRefreshToken(Member member) {
         Date now = DateUtils.now();
-        Date expiredDate = DateUtils.addTime(now, REFRESH_TOKEN_TIME_TO_LIVE);
+        Date expiredDate = DateUtils.addTime(now, properties.getRefreshTokenValidityInSeconds());
         LocalDateTime expiredLocalDateTime = LocalDateTime.ofInstant(expiredDate.toInstant(),
             ZoneId.systemDefault());
 
         String refreshToken = Jwts.builder()
-            .signWith(SignatureAlgorithm.HS256, SIGN_KEY)
+            .signWith(SignatureAlgorithm.HS256, properties.getSignKey())
             .setIssuedAt(now)
             .setIssuer(JWT_ISSUER)
             .setExpiration(expiredDate)
             .compact();
 
         // Redis 저장
-        RefreshToken redisRefreshToken = new RefreshToken(refreshToken, member.getId());
+        RefreshToken redisRefreshToken = new RefreshToken(
+            properties.getRefreshTokenValidityInSeconds(),
+            refreshToken,
+            member.getId());
         refreshTokenRepository.save(redisRefreshToken);
 
         return RefreshTokenResponseDto.of(
@@ -115,7 +118,7 @@ public class JwtTokenFactory {
     public Claims parseClaims(String token) {
         return Jwts
             .parser()
-            .setSigningKey(SIGN_KEY)
+            .setSigningKey(properties.getSignKey())
             .parseClaimsJws(token)
             .getBody();
     }

@@ -1,12 +1,11 @@
 package com.recipe.gpt.common.config.properties;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
+@RequiredArgsConstructor
 @ConfigurationProperties("spring.security.oauth2.client.registration.google")
 public class GoogleProperties {
 
