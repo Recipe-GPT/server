@@ -4,6 +4,7 @@ import com.recipe.gpt.app.web.path.ApiPath;
 import com.recipe.gpt.common.config.security.jwt.CustomAccessDeniedHandler;
 import com.recipe.gpt.common.config.security.jwt.JwtOncePerRequestFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,6 +32,9 @@ public class WebSecurityConfig {
         "/"
     };
 
+    @Value("${recipe-gpt.error.redirectUrl}")
+    private String errorAuth;
+
     @Bean
     protected SecurityFilterChain config(HttpSecurity http) throws Exception {
         http.httpBasic().disable();
@@ -51,7 +55,7 @@ public class WebSecurityConfig {
             // 인증
             .requestMatchers(ApiPath.LOGIN_OAUTH2, ApiPath.REFRESH_TOKEN).permitAll()
             // 에러 핸들러
-            .requestMatchers(ApiPath.ERROR_AUTH).permitAll()
+            .requestMatchers(errorAuth).permitAll()
             // 식재료, 양념 검색
             .requestMatchers(ApiPath.SEARCH_INGREDIENT, ApiPath.SEARCH_SEASONING).permitAll()
             // 커뮤니티 조회

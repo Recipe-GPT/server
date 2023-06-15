@@ -1,6 +1,5 @@
 package com.recipe.gpt.app.web.controller.error;
 
-import com.recipe.gpt.app.web.path.ApiPath;
 import com.recipe.gpt.common.exception.JwtException;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ErrorController {
 
     @RequestMapping(
-        value = ApiPath.ERROR_AUTH,
+        value = "${recipe-gpt.error.redirectUrl}",
         method = {
             RequestMethod.GET,
             RequestMethod.DELETE,

@@ -1,8 +1,8 @@
 package com.recipe.gpt.common.config.security.jwt;
 
 import static com.recipe.gpt.common.config.security.jwt.JwtProperty.JWT_EXCEPTION;
-import static com.recipe.gpt.common.config.security.jwt.JwtProperty.TOKEN_KEY;
 
+import com.recipe.gpt.common.config.properties.JwtProperties;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -25,11 +25,13 @@ public class JwtOncePerRequestFilter extends OncePerRequestFilter {
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
+    private final JwtProperties properties;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
 
-        String token = request.getHeader(TOKEN_KEY);
+        String token = request.getHeader(properties.getHeader());
 
         try {
             authenticate(token);
