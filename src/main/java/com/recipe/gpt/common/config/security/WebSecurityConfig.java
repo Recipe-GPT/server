@@ -32,9 +32,6 @@ public class WebSecurityConfig {
         "/"
     };
 
-    @Value("${recipe-gpt.error.redirectUrl}")
-    private String errorAuth;
-
     @Bean
     protected SecurityFilterChain config(HttpSecurity http) throws Exception {
         http.httpBasic().disable();
@@ -55,7 +52,7 @@ public class WebSecurityConfig {
             // 인증
             .requestMatchers(ApiPath.LOGIN_OAUTH2, ApiPath.REFRESH_TOKEN).permitAll()
             // 에러 핸들러
-            .requestMatchers(errorAuth).permitAll()
+            .requestMatchers(ApiPath.ERROR).permitAll()
             // 식재료, 양념 검색
             .requestMatchers(ApiPath.SEARCH_INGREDIENT, ApiPath.SEARCH_SEASONING).permitAll()
             // 커뮤니티 조회

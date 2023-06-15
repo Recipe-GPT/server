@@ -59,8 +59,7 @@ cloud:
         false
 
 recipe-gpt:
-  error:
-    redirectUrl: ${recipe-gpt.error.redirectUrl}
+  host: ${recipe.gpt.host}
   cloudFront:
     distributionDomain: ${recipe.gpt.cloudFront.distributionDomain}
 
