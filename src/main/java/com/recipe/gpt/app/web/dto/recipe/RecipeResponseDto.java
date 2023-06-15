@@ -25,7 +25,7 @@ public class RecipeResponseDto {
 
     private List<IngredientResponseDto> ingredients;
 
-    private List<SeasoningResponseDto> seasoning;
+    private List<SeasoningResponseDto> seasonings;
 
     private List<String> recipe;
 
