@@ -24,7 +24,7 @@ public class AuthService {
     /**
      * 액세스 토큰, 리프레시 토큰 생성
      */
-    @Transactional
+    @Transactional(readOnly = true)
     public AccessAndRefreshTokenResponseDto generateAccessAndRefreshToken(OAuthMember oAuthMember) {
         Member foundMember = findMember(oAuthMember);
         return jwtTokenFactory.generateJwtToken(foundMember);
