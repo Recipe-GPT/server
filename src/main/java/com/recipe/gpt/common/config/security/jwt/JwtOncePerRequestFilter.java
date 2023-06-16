@@ -1,6 +1,6 @@
 package com.recipe.gpt.common.config.security.jwt;
 
-import static com.recipe.gpt.common.config.security.jwt.JwtProperty.JWT_EXCEPTION;
+import static com.recipe.gpt.common.config.security.jwt.JwtConstants.JWT_EXCEPTION;
 
 import com.recipe.gpt.common.config.properties.JwtProperties;
 import io.jsonwebtoken.ExpiredJwtException;

@@ -1,7 +1,7 @@
 package com.recipe.gpt.common.config.security.jwt;
 
-import static com.recipe.gpt.common.config.security.jwt.JwtProperty.MEMBER_EMAIL;
-import static com.recipe.gpt.common.config.security.jwt.JwtProperty.ID;
+import static com.recipe.gpt.common.config.security.jwt.JwtConstants.ID;
+import static com.recipe.gpt.common.config.security.jwt.JwtConstants.MEMBER_EMAIL;
 
 import com.recipe.gpt.common.config.security.context.LoginMember;
 import io.jsonwebtoken.Claims;
