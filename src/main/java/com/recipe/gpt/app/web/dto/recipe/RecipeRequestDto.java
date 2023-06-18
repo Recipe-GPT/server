@@ -44,6 +44,7 @@ public class RecipeRequestDto {
         return Recipe.builder()
             .name(name)
             .description(description)
+            .isSelected(true)
             .build();
     }
 
