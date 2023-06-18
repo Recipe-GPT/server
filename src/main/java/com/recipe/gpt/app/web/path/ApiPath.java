@@ -13,7 +13,7 @@ public class ApiPath {
 
     // 레시피 질문
     public static final String QUERY_RECOMMEND = "/api/v1/query/recommend/{chatRoomId}";
-    public static final String QUERY_RECIPE = "/api/v1/query/recipe/{chatRoomId}";
+    public static final String QUERY_RECIPE = "/api/v1/query/recipe/{chatRoomId}/{recipeId}";
 
     // 식재료, 양념 검색
     public static final String SEARCH_INGREDIENT = "/api/v1/search/ingredient";

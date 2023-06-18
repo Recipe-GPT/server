@@ -1,7 +1,6 @@
 package com.recipe.gpt.app.web.controller.chat;
 
 import com.recipe.gpt.app.domain.chat.ChatService;
-import com.recipe.gpt.app.web.dto.ai.AiServerRecipeRequestDto;
 import com.recipe.gpt.app.web.dto.ai.AiServerRecommendRequestDto;
 import com.recipe.gpt.app.web.dto.ai.AiServerRecommendResponseDto;
 import com.recipe.gpt.app.web.dto.ai.ExtractedRecipeResponseDto;
@@ -41,9 +40,9 @@ public class ChatController {
     public ResponseEntity<ExtractedRecipeResponseDto> recipeQuery(
         @AuthenticationPrincipal LoginMember loginMember,
         @PathVariable Long chatRoomId,
-        @Valid @RequestBody AiServerRecipeRequestDto body
+        @PathVariable Long recipeId
     ) {
-        return ResponseEntity.ok(chatService.recipeQuery(loginMember, chatRoomId, body));
+        return ResponseEntity.ok(chatService.recipeQuery(loginMember, chatRoomId, recipeId));
     }
 
 }
