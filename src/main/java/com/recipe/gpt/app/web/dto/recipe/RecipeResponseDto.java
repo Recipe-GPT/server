@@ -30,12 +30,6 @@ public class RecipeResponseDto {
     private List<String> recipe;
 
     public static RecipeResponseDto of(Recipe recipe) {
-
-        // 레시피가 없고 요리 추천 질문만 한 경우
-        if (recipe == null) {
-            return null;
-        }
-
         List<String> procedures = toProcedures(recipe.getProcedure());
 
         return new RecipeResponseDto(
@@ -46,12 +40,6 @@ public class RecipeResponseDto {
             SeasoningResponseDto.listOf(recipe.getSeasoning()),
             procedures
         );
-    }
-
-    public static List<RecipeResponseDto> listOf(List<Recipe> recipeList) {
-        return recipeList.stream()
-            .map(RecipeResponseDto::of)
-            .collect(Collectors.toList());
     }
 
     public static List<RecipeResponseDto> selectedRecipeListOf(List<Recipe> recipeList) {

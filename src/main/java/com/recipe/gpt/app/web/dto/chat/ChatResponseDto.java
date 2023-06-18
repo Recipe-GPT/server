@@ -6,6 +6,7 @@ import com.recipe.gpt.app.domain.chat.requested.ingredient.RequestedIngredientIt
 import com.recipe.gpt.app.domain.chat.requested.seasoning.RequestedSeasoning;
 import com.recipe.gpt.app.domain.chat.requested.seasoning.RequestedSeasoningItem;
 import com.recipe.gpt.app.web.dto.recipe.RecipeResponseDto;
+import com.recipe.gpt.app.web.dto.recipe.RecommendRecipeResponseDto;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -24,7 +25,7 @@ public class ChatResponseDto {
 
     private List<String> requestedSeasonings;
 
-    private List<RecipeResponseDto> recommendRecipe;
+    private List<RecommendRecipeResponseDto> recommendRecipe;
 
     private List<RecipeResponseDto> selectedRecipe;
 
@@ -36,7 +37,7 @@ public class ChatResponseDto {
             chat.getId(),
             requestIngredients,
             requestSeasonings,
-            RecipeResponseDto.listOf(chat.getRecipeList()),
+            RecommendRecipeResponseDto.listOf(chat.getRecipeList()),
             RecipeResponseDto.selectedRecipeListOf(chat.getRecipeList())
         );
     }
