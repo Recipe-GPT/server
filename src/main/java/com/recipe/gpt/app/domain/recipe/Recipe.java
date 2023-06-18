@@ -5,6 +5,7 @@ import com.recipe.gpt.app.domain.chat.Chat;
 import com.recipe.gpt.app.domain.recipe.ingredient.Ingredient;
 import com.recipe.gpt.app.domain.recipe.ingredient.IngredientItem;
 import com.recipe.gpt.app.domain.recipe.procedure.Procedure;
+import com.recipe.gpt.app.domain.recipe.procedure.ProcedureItem;
 import com.recipe.gpt.app.domain.recipe.seasoning.Seasoning;
 import com.recipe.gpt.app.domain.recipe.seasoning.SeasoningItem;
 import jakarta.persistence.Column;
@@ -75,9 +76,11 @@ public class Recipe {
     }
 
     public void update(List<IngredientItem> ingredientItems,
-        List<SeasoningItem> seasoningItems) {
+        List<SeasoningItem> seasoningItems,
+        List<ProcedureItem> procedureItems) {
         updateIngredient(ingredientItems);
         updateSeasoning(seasoningItems);
+        updateProcedure(procedureItems);
     }
 
     private void updateIngredient(List<IngredientItem> ingredientItems) {
@@ -91,6 +94,13 @@ public class Recipe {
         this.seasoning.clear();
         for (SeasoningItem seasoningItem : seasoningItems) {
             seasoningItem.setRecipe(this);
+        }
+    }
+
+    private void updateProcedure(List<ProcedureItem> procedureItems) {
+        this.procedure.clear();
+        for (ProcedureItem procedureItem : procedureItems) {
+            procedureItem.setRecipe(this);
         }
     }
 

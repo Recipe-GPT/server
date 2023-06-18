@@ -34,7 +34,7 @@ public class RecipeService {
     }
 
     /**
-     * ai server | 요리 추천 질문 응답으로 레시피 생성
+     * ai server 응답으로 레시피 생성
      */
     @Transactional
     public Recipe createByRecommendQueryResponse(AiServerRecommendResponseDto body, Chat chat) {
@@ -43,6 +43,18 @@ public class RecipeService {
         setRecipeSeasonings(recipe, body.toSeasoningItems());
         setChat(recipe, chat);
         return recipeRepository.save(recipe);
+    }
+
+    /**
+     * 레시피 업데이트
+     */
+    @Transactional
+    public void updateRecipe(Recipe recipe, ExtractedRecipeResponseDto response) {
+        recipe.updateIsSelected();
+        recipe.update(response.toIngredientItems(),
+            response.toSeasoningItems(),
+            response.toProcedureItems());
+
     }
 
     private void setRecipeIngredients(Recipe recipe, List<IngredientItem> ingredients) {
@@ -63,15 +75,6 @@ public class RecipeService {
 
     private void setBoard(Recipe recipe, Board board) {
         recipe.setBoard(board);
-    }
-
-    @Transactional
-    public void updateRecipe(Long recipeId, ExtractedRecipeResponseDto response) {
-        Recipe recipe = findById(recipeId);
-        setRecipeProcedures(recipe, response.toProcedureItems());
-
-        recipe.updateIsSelected();
-        recipe.update(response.toIngredientItems(), response.toSeasoningItems());
     }
 
     @Transactional(readOnly = true)

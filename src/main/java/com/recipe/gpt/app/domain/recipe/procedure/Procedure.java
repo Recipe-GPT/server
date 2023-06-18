@@ -29,4 +29,8 @@ public class Procedure {
         procedure.add(procedureItem);
     }
 
+    public void clear() {
+        procedure.clear();
+    }
+
 }

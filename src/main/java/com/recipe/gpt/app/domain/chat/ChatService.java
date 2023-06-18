@@ -77,12 +77,12 @@ public class ChatService {
             throw new NotPossibleToAccessChatRoomException();
         }
 
-        // [2] ai 서버로 요청
+        // [2] AI 서버로 요청
         AiServerRecipeRequestDto body = AiServerRecipeRequestDto.of(recipe);
         ExtractedRecipeResponseDto response = chatClient.recipeQuery(body);
 
         // [3] 레시피 업데이트
-        recipeService.updateRecipe(recipeId, response);
+        recipeService.updateRecipe(recipe, response);
         return response;
     }
 
