@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class AiServerRecommendResponseDto {
 
+    private Long recipeId;
+
     private String name;
 
     private String description;
@@ -22,6 +24,10 @@ public class AiServerRecommendResponseDto {
     private List<String> ingredients;
 
     private List<String> seasonings;
+
+    public void setRecipeId(Long recipeId) {
+        this.recipeId = recipeId;
+    }
 
     public Recipe toRecipe() {
         return Recipe.builder()
