@@ -48,16 +48,15 @@ public class RecipeResponseDto {
         );
     }
 
-    public static List<RecipeResponseDto> selectedRecipeListOf(List<Recipe> recipeList) {
+    public static List<RecipeResponseDto> listOf(List<Recipe> recipeList) {
         return recipeList.stream()
-            .filter(Recipe::getIsSelected)
             .map(RecipeResponseDto::of)
             .collect(Collectors.toList());
     }
 
-    public static List<RecipeResponseDto> unSelectedRecipeListOf(List<Recipe> recipeList) {
+    public static List<RecipeResponseDto> selectedRecipeListOf(List<Recipe> recipeList) {
         return recipeList.stream()
-            .filter(recipe -> !recipe.getIsSelected())
+            .filter(Recipe::getIsSelected)
             .map(RecipeResponseDto::of)
             .collect(Collectors.toList());
     }

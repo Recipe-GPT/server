@@ -36,7 +36,7 @@ public class ChatResponseDto {
             chat.getId(),
             requestIngredients,
             requestSeasonings,
-            RecipeResponseDto.unSelectedRecipeListOf(chat.getRecipeList()),
+            RecipeResponseDto.listOf(chat.getRecipeList()),
             RecipeResponseDto.selectedRecipeListOf(chat.getRecipeList())
         );
     }
