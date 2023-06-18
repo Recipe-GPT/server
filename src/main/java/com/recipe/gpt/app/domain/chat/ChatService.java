@@ -6,6 +6,7 @@ import com.recipe.gpt.app.domain.chat.requested.ingredient.RequestedIngredientIt
 import com.recipe.gpt.app.domain.chat.requested.seasoning.RequestedSeasoningItem;
 import com.recipe.gpt.app.domain.member.Member;
 import com.recipe.gpt.app.domain.member.MemberService;
+import com.recipe.gpt.app.domain.recipe.Recipe;
 import com.recipe.gpt.app.domain.recipe.RecipeService;
 import com.recipe.gpt.app.web.dto.ai.AiServerRecipeRequestDto;
 import com.recipe.gpt.app.web.dto.ai.AiServerRecommendRequestDto;
@@ -13,7 +14,6 @@ import com.recipe.gpt.app.web.dto.ai.AiServerRecommendResponseDto;
 import com.recipe.gpt.app.web.dto.ai.ExtractedRecipeResponseDto;
 import com.recipe.gpt.app.web.response.ListResponse;
 import com.recipe.gpt.common.config.security.context.LoginMember;
-import com.recipe.gpt.common.exception.NoChatHistoryException;
 import com.recipe.gpt.common.exception.NotPossibleToAccessChatRoomException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -51,11 +51,12 @@ public class ChatService {
         List<AiServerRecommendResponseDto> responseList = chatClient.recommendQuery(body);
 
         // [3] 채팅 저장
-        Chat chat = save(member, chatRoom, body, responseList);
+        Chat chat = save(member, chatRoom, body);
 
         // [4] 응답 레시피 모두 저장
-        for (AiServerRecommendResponseDto response: responseList) {
-            recipeService.createByRecommendQueryResponse(response, chat);
+        for (AiServerRecommendResponseDto response : responseList) {
+            Recipe recipe = recipeService.createByRecommendQueryResponse(response, chat);
+            response.setRecipeId(recipe.getId());
         }
 
         return ListResponse.of(responseList);
@@ -66,9 +67,10 @@ public class ChatService {
      */
     @Transactional
     public ExtractedRecipeResponseDto recipeQuery(
-        LoginMember loginMember, Long chatRoomId, AiServerRecipeRequestDto body) {
+        LoginMember loginMember, Long chatRoomId, Long recipeId) {
         Member member = memberService.findLoginMember(loginMember);
         ChatRoom chatRoom = chatRoomService.findById(chatRoomId);
+        Recipe recipe = recipeService.findById(recipeId);
 
         // [1] 채팅방 접근 권한 체크
         if (!chatRoom.isAccessibleToChatRoom(member)) {
@@ -76,20 +78,18 @@ public class ChatService {
         }
 
         // [2] ai 서버로 요청
+        AiServerRecipeRequestDto body = AiServerRecipeRequestDto.of(recipe);
         ExtractedRecipeResponseDto response = chatClient.recipeQuery(body);
 
-        // [3] 레시피 저장
-        Chat latestChat = findLatestChatByChatRoomId(chatRoom);
-        recipeService.createByRecipeQueryResponse(body, response, latestChat);
-
+        // [3] 레시피 업데이트
+        recipeService.updateRecipe(recipeId, response);
         return response;
     }
 
     @Transactional
     public Chat save(Member member,
         ChatRoom chatRoom,
-        AiServerRecommendRequestDto body,
-        List<AiServerRecommendResponseDto> responseList) {
+        AiServerRecommendRequestDto body) {
 
         Chat chat = Chat.builder()
             .chatRoom(chatRoom)
@@ -112,12 +112,6 @@ public class ChatService {
         for (RequestedSeasoningItem requestedSeasoningItem : requestedSeasoningItems) {
             requestedSeasoningItem.setChat(chat);
         }
-    }
-
-    @Transactional(readOnly = true)
-    public Chat findLatestChatByChatRoomId(ChatRoom chatRoom) {
-        return chatRepository.findFirstByChatRoomOrderByIdDesc(chatRoom)
-            .orElseThrow(NoChatHistoryException::new);
     }
 
 }

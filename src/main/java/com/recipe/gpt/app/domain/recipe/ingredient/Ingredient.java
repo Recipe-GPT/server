@@ -39,4 +39,8 @@ public class Ingredient {
             .anyMatch(item -> item.isSameIngredientWith(ingredientItem));
     }
 
+    public void clear() {
+        ingredient.clear();
+    }
+
 }

@@ -5,10 +5,10 @@ import com.recipe.gpt.app.domain.chat.Chat;
 import com.recipe.gpt.app.domain.recipe.ingredient.IngredientItem;
 import com.recipe.gpt.app.domain.recipe.procedure.ProcedureItem;
 import com.recipe.gpt.app.domain.recipe.seasoning.SeasoningItem;
-import com.recipe.gpt.app.web.dto.ai.AiServerRecipeRequestDto;
 import com.recipe.gpt.app.web.dto.ai.AiServerRecommendResponseDto;
 import com.recipe.gpt.app.web.dto.ai.ExtractedRecipeResponseDto;
 import com.recipe.gpt.app.web.dto.recipe.RecipeRequestDto;
+import com.recipe.gpt.common.exception.RecipeNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,27 +37,12 @@ public class RecipeService {
      * ai server | 요리 추천 질문 응답으로 레시피 생성
      */
     @Transactional
-    public void createByRecommendQueryResponse(AiServerRecommendResponseDto body, Chat chat) {
+    public Recipe createByRecommendQueryResponse(AiServerRecommendResponseDto body, Chat chat) {
         Recipe recipe = body.toRecipe();
         setRecipeIngredients(recipe, body.toIngredientItems());
         setRecipeSeasonings(recipe, body.toSeasoningItems());
         setChat(recipe, chat);
-        recipeRepository.save(recipe);
-    }
-
-
-    /**
-     * ai server | 레시피 질문 응답으로 레시피 생성
-     */
-    @Transactional
-    public void createByRecipeQueryResponse(AiServerRecipeRequestDto body,
-        ExtractedRecipeResponseDto response, Chat latestChat) {
-        Recipe recipe = body.toRecipe();
-        setRecipeIngredients(recipe, response.toIngredientItems());
-        setRecipeSeasonings(recipe, response.toSeasoningItems());
-        setRecipeProcedures(recipe, response.toProcedureItems());
-        setChat(recipe, latestChat);
-        recipeRepository.save(recipe);
+        return recipeRepository.save(recipe);
     }
 
     private void setRecipeIngredients(Recipe recipe, List<IngredientItem> ingredients) {
@@ -78,6 +63,21 @@ public class RecipeService {
 
     private void setBoard(Recipe recipe, Board board) {
         recipe.setBoard(board);
+    }
+
+    @Transactional
+    public void updateRecipe(Long recipeId, ExtractedRecipeResponseDto response) {
+        Recipe recipe = findById(recipeId);
+        setRecipeProcedures(recipe, response.toProcedureItems());
+
+        recipe.updateIsSelected();
+        recipe.update(response.toIngredientItems(), response.toSeasoningItems());
+    }
+
+    @Transactional(readOnly = true)
+    public Recipe findById(Long id) {
+        return recipeRepository.findById(id)
+            .orElseThrow(RecipeNotFoundException::new);
     }
 
 }

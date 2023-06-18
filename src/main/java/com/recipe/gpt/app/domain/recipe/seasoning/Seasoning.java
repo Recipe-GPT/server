@@ -39,4 +39,8 @@ public class Seasoning {
             .anyMatch(item -> item.isSameSeasoningWith(seasoningItem));
     }
 
+    public void clear() {
+        seasoning.clear();
+    }
+
 }

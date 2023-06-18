@@ -3,8 +3,10 @@ package com.recipe.gpt.app.domain.recipe;
 import com.recipe.gpt.app.domain.board.Board;
 import com.recipe.gpt.app.domain.chat.Chat;
 import com.recipe.gpt.app.domain.recipe.ingredient.Ingredient;
+import com.recipe.gpt.app.domain.recipe.ingredient.IngredientItem;
 import com.recipe.gpt.app.domain.recipe.procedure.Procedure;
 import com.recipe.gpt.app.domain.recipe.seasoning.Seasoning;
+import com.recipe.gpt.app.domain.recipe.seasoning.SeasoningItem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -15,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -65,6 +68,30 @@ public class Recipe {
 
     public void setBoard(Board board) {
         board.setRecipe(this);
+    }
+
+    public void updateIsSelected() {
+        this.isSelected = true;
+    }
+
+    public void update(List<IngredientItem> ingredientItems,
+        List<SeasoningItem> seasoningItems) {
+        updateIngredient(ingredientItems);
+        updateSeasoning(seasoningItems);
+    }
+
+    private void updateIngredient(List<IngredientItem> ingredientItems) {
+        this.ingredient.clear();
+        for (IngredientItem ingredientItem : ingredientItems) {
+            ingredientItem.setRecipe(this);
+        }
+    }
+
+    private void updateSeasoning(List<SeasoningItem> seasoningItems) {
+        this.seasoning.clear();
+        for (SeasoningItem seasoningItem : seasoningItems) {
+            seasoningItem.setRecipe(this);
+        }
     }
 
 }
