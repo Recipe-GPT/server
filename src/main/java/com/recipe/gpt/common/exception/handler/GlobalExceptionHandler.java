@@ -1,12 +1,16 @@
 package com.recipe.gpt.common.exception.handler;
 
 import com.recipe.gpt.app.web.response.ErrorResponse;
+import com.recipe.gpt.app.web.response.ValidationErrorResponse;
 import com.recipe.gpt.common.exception.GeneralHttpException;
 import com.recipe.gpt.common.util.JsonUtils;
+
+import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -39,13 +43,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> methodArgumentNotValidExceptionHandler(
+    public ResponseEntity<ValidationErrorResponse> methodArgumentNotValidExceptionHandler(
         MethodArgumentNotValidException e) {
-        ErrorResponse errorResponse = ErrorResponse.builder()
-            .statusCode(HttpStatus.BAD_REQUEST.value())
-            .reason(e.getMessage())
-            .message("형식에 맞지않은 요청입니다.")
-            .build();
+        Map<String, String> errorMap = new HashMap<>();
+        for (FieldError error : e.getFieldErrors()) {
+            errorMap.put(error.getField(), error.getDefaultMessage());
+        }
+        ValidationErrorResponse errorResponse = new ValidationErrorResponse(errorMap);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
