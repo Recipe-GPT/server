@@ -22,23 +22,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class RecipeRequestDto {
 
-    @NotBlank
+    @NotBlank(message = "이름은 공백일 수 없습니다")
+    @Size(max = 64, message = "이름은 최대 64글자여야 합니다")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "설명은 공백일 수 없습니다")
+    @Size(max = 200, message = "설명은 최대 200글자여야 합니다")
     private String description;
 
-    @NotEmpty
-    @Size(max = 20)
+    @Size(min = 3, max = 20, message = "재료의 갯수는 3 ~ 20개여야 합니다")
     private List<@NotNull IngredientRequestDto> ingredients;
 
-    @NotEmpty
-    @Size(max = 20)
+    @Size(min = 1, max = 20, message = "양념의 갯수는 1 ~ 20개여야 합니다")
     private List<@NotNull SeasoningRequestDto> seasonings;
 
-    @NotEmpty
-    @Size(min = 1, max = 20)
-    private List<@NotBlank String> recipe;
+    @Size(min = 1, max = 50, message = "레시피의 단계는 1 ~ 50개여야 합니다")
+    private List<
+        @NotBlank(message = "레시피는 공백일 수 없습니다")
+        @Size(max = 200, message = "레시피는 최대 200글자여야 합니다")
+        String> recipe;
 
     public Recipe toRecipe() {
         return Recipe.builder()

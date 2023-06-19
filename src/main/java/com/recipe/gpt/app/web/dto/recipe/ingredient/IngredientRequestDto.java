@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class IngredientRequestDto {
 
-    @NotBlank
-    @Size(max = 10)
+    @NotBlank(message = "재료는 공백일 수 없습니다")
+    @Size(max = 20, message = "재료는 최대 20글자여야 합니다")
     private String name;
 
     @NotBlank

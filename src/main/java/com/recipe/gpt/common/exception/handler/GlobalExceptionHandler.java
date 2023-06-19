@@ -7,6 +7,9 @@ import com.recipe.gpt.common.util.JsonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -48,6 +51,20 @@ public class GlobalExceptionHandler {
         Map<String, String> errorMap = new HashMap<>();
         for (FieldError error : e.getFieldErrors()) {
             errorMap.put(error.getField(), error.getDefaultMessage());
+        }
+        ValidationErrorResponse errorResponse = new ValidationErrorResponse(errorMap);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ConstraintViolationException.class})
+    public ResponseEntity<ValidationErrorResponse> constraintViolationExceptionHandler(
+        ConstraintViolationException e) {
+        Map<String, String> errorMap = new HashMap<>();
+        for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
+            String propertyPath = violation.getPropertyPath().toString();
+            errorMap.put(
+                    propertyPath.substring(propertyPath.lastIndexOf(".") + 1),
+                    violation.getMessage());
         }
         ValidationErrorResponse errorResponse = new ValidationErrorResponse(errorMap);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
