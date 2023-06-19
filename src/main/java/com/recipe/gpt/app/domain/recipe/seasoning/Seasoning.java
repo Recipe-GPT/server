@@ -22,6 +22,10 @@ public class Seasoning {
         return new Seasoning();
     }
 
+    public void clear() {
+        seasoning.clear();
+    }
+
     public List<SeasoningItem> getSeasoningItems() {
         return seasoning;
     }
@@ -37,10 +41,6 @@ public class Seasoning {
     private boolean isContainSeasoningItem(SeasoningItem seasoningItem) {
         return seasoning.stream()
             .anyMatch(item -> item.isSameSeasoningWith(seasoningItem));
-    }
-
-    public void clear() {
-        seasoning.clear();
     }
 
 }

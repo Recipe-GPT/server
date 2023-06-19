@@ -2,13 +2,12 @@ package com.recipe.gpt.app.web.dto.search;
 
 import com.recipe.gpt.app.domain.search.seasoning.SeasoningData;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -23,15 +22,15 @@ public class SeasoningDataResponseDto {
 
     public static SeasoningDataResponseDto of(SeasoningData seasoningData) {
         return new SeasoningDataResponseDto(
-                seasoningData.getId(),
-                seasoningData.getName()
+            seasoningData.getId(),
+            seasoningData.getName()
         );
     }
 
     public static List<SeasoningDataResponseDto> listOf(List<SeasoningData> seasoningData) {
         return seasoningData.stream()
-                .map(SeasoningDataResponseDto::of)
-                .collect(Collectors.toList());
+            .map(SeasoningDataResponseDto::of)
+            .collect(Collectors.toList());
     }
 
 }

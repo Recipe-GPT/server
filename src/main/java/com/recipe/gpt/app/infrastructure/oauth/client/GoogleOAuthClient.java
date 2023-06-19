@@ -9,15 +9,15 @@ import static com.recipe.gpt.app.infrastructure.oauth.constants.OAuthConstants.G
 import static com.recipe.gpt.app.infrastructure.oauth.constants.OAuthConstants.REDIRECT_URI;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipe.gpt.app.domain.auth.OAuthClient;
-import com.recipe.gpt.common.exception.OAuthException;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import com.recipe.gpt.app.infrastructure.oauth.dto.GoogleTokenResponseDto;
 import com.recipe.gpt.app.infrastructure.oauth.dto.UserInfo;
 import com.recipe.gpt.app.web.dto.auth.OAuthMember;
 import com.recipe.gpt.common.config.properties.GoogleProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.recipe.gpt.common.exception.OAuthException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

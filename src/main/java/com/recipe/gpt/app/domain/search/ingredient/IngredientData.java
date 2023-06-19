@@ -20,4 +20,5 @@ public class IngredientData {
 
     @Column(nullable = false, length = 20)
     private String name;
+
 }

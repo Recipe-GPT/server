@@ -12,4 +12,5 @@ public interface BoardRepositoryCustom {
     List<Board> findTrendBoardList();
 
     List<Board> findRecommendedBoardList();
+
 }

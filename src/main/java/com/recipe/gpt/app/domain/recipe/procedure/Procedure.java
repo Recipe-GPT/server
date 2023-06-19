@@ -21,16 +21,16 @@ public class Procedure {
         return new Procedure();
     }
 
+    public void clear() {
+        procedure.clear();
+    }
+
     public List<ProcedureItem> getProcedureItems() {
         return procedure;
     }
 
     public void addProcedureItem(ProcedureItem procedureItem) {
         procedure.add(procedureItem);
-    }
-
-    public void clear() {
-        procedure.clear();
     }
 
 }

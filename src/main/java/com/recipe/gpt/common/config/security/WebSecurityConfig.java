@@ -4,7 +4,6 @@ import com.recipe.gpt.app.web.path.ApiPath;
 import com.recipe.gpt.common.config.security.jwt.CustomAccessDeniedHandler;
 import com.recipe.gpt.common.config.security.jwt.JwtOncePerRequestFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -23,6 +23,14 @@ public class ExtractedRecipeResponseDto {
 
     private List<String> recipe;
 
+    public static ExtractedRecipeResponseDto of(AiServerRecipeResponseDto aiServerRecipeResponse) {
+        return new ExtractedRecipeResponseDto(
+            ItemResponseDto.listOf(aiServerRecipeResponse.getIngredients()),
+            ItemResponseDto.listOf(aiServerRecipeResponse.getSeasonings()),
+            removeNumberedListPrefix(aiServerRecipeResponse.getRecipe())
+        );
+    }
+
     public List<IngredientItem> toIngredientItems() {
         List<IngredientItem> ingredientItems = new ArrayList<>();
         for (ItemResponseDto ingredient : ingredients) {
@@ -62,14 +70,6 @@ public class ExtractedRecipeResponseDto {
         return recipe.stream()
             .map(StringUtils::removeNumberedListPrefix)
             .collect(Collectors.toList());
-    }
-
-    public static ExtractedRecipeResponseDto of(AiServerRecipeResponseDto aiServerRecipeResponse) {
-        return new ExtractedRecipeResponseDto(
-            ItemResponseDto.listOf(aiServerRecipeResponse.getIngredients()),
-            ItemResponseDto.listOf(aiServerRecipeResponse.getSeasonings()),
-            removeNumberedListPrefix(aiServerRecipeResponse.getRecipe())
-        );
     }
 
 }

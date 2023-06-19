@@ -1,6 +1,5 @@
 package com.recipe.gpt.common.validator;
 
-
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

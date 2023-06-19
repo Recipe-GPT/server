@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class StringUtilsTest {
 
     @Test
-    public void removeNumberedListPrefixTest () {
+    public void removeNumberedListPrefixTest() {
         // given
         String input1 = "1. 참치를 섞습니다";
         String expected1 = "참치를 섞습니다";

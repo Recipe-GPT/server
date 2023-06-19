@@ -22,6 +22,10 @@ public class Ingredient {
         return new Ingredient();
     }
 
+    public void clear() {
+        ingredient.clear();
+    }
+
     public List<IngredientItem> getIngredientItems() {
         return ingredient;
     }
@@ -37,10 +41,6 @@ public class Ingredient {
     private boolean isContainIngredientItem(IngredientItem ingredientItem) {
         return ingredient.stream()
             .anyMatch(item -> item.isSameIngredientWith(ingredientItem));
-    }
-
-    public void clear() {
-        ingredient.clear();
     }
 
 }

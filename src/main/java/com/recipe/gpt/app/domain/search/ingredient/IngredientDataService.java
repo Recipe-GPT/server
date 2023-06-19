@@ -20,4 +20,5 @@ public class IngredientDataService {
             IngredientDataResponseDto.listOf(ingredientList)
         );
     }
+
 }

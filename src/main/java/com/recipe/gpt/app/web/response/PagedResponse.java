@@ -9,6 +9,7 @@ import lombok.Data;
 public class PagedResponse<T> {
 
     private Pagination pagination;
+
     private List<T> list;
 
     public static <T> PagedResponse<T> of(Pagination pagination, List<T> list) {
