@@ -19,11 +19,11 @@ public class AiServerRecommendRequestDto {
 
     @NotEmpty
     @Size(min = 3, max = 20)
-    private List<@NotBlank @Size(max = 10) String> ingredients;
+    private List<@NotBlank @Size(max = 20) String> ingredients;
 
     @NotEmpty
     @Size(min = 3, max = 20)
-    private List<@NotBlank @Size(max = 10) String> seasonings;
+    private List<@NotBlank @Size(max = 20) String> seasonings;
 
     public List<RequestedIngredientItem> toRequestedIngredientItems() {
         List<RequestedIngredientItem> requestedIngredientItems = new ArrayList<>();
