@@ -6,7 +6,7 @@ import java.io.IOException;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public final class JsonUtils {
+public class JsonUtils {
 
     public <T> T readValue(String json, Class<T> clazz) {
         try {
