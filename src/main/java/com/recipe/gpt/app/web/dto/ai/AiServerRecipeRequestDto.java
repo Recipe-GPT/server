@@ -28,11 +28,11 @@ public class AiServerRecipeRequestDto {
 
     @NotEmpty
     @Size(min = 3, max = 20)
-    private List<@NotBlank @Size(max = 10) String> ingredients;
+    private List<@NotBlank @Size(max = 20) String> ingredients;
 
     @NotEmpty
     @Size(min = 3, max = 20)
-    private List<@NotBlank @Size(max = 10) String> seasonings;
+    private List<@NotBlank @Size(max = 20) String> seasonings;
 
     public static AiServerRecipeRequestDto of(Recipe recipe) {
         return new AiServerRecipeRequestDto(
@@ -53,14 +53,6 @@ public class AiServerRecipeRequestDto {
         return seasoning.getSeasoningItems().stream()
             .map(SeasoningItem::getName)
             .collect(Collectors.toList());
-    }
-
-    public Recipe toRecipe() {
-        return Recipe.builder()
-            .name(name)
-            .description(description)
-            .isSelected(true)
-            .build();
     }
 
 }
