@@ -24,9 +24,9 @@ public class AuthService {
     /**
      * 액세스 토큰, 리프레시 토큰 생성
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public AccessAndRefreshTokenResponseDto generateAccessAndRefreshToken(OAuthMember oAuthMember) {
-        Member foundMember = findMember(oAuthMember);
+        Member foundMember = upsertMember(oAuthMember);
         return jwtTokenFactory.generateJwtToken(foundMember);
     }
 
@@ -41,7 +41,7 @@ public class AuthService {
         return jwtTokenFactory.generateAccessToken(member);
     }
 
-    private Member findMember(final OAuthMember oAuthMember) {
+    private Member upsertMember(final OAuthMember oAuthMember) {
         String email = oAuthMember.getEmail();
         if (memberRepository.existsByEmail(email)) {
             return memberRepository.getByEmail(email);
