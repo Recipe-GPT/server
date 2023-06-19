@@ -3,8 +3,10 @@ package com.recipe.gpt.app.web.dto.ai;
 import com.recipe.gpt.app.domain.recipe.ingredient.IngredientItem;
 import com.recipe.gpt.app.domain.recipe.procedure.ProcedureItem;
 import com.recipe.gpt.app.domain.recipe.seasoning.SeasoningItem;
+import com.recipe.gpt.common.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -56,11 +58,17 @@ public class ExtractedRecipeResponseDto {
         return procedureItems;
     }
 
+    private static List<String> removeNumberedListPrefix(List<String> recipe) {
+        return recipe.stream()
+            .map(StringUtils::removeNumberedListPrefix)
+            .collect(Collectors.toList());
+    }
+
     public static ExtractedRecipeResponseDto of(AiServerRecipeResponseDto aiServerRecipeResponse) {
         return new ExtractedRecipeResponseDto(
             ItemResponseDto.listOf(aiServerRecipeResponse.getIngredients()),
             ItemResponseDto.listOf(aiServerRecipeResponse.getSeasonings()),
-            aiServerRecipeResponse.getRecipe()
+            removeNumberedListPrefix(aiServerRecipeResponse.getRecipe())
         );
     }
 
